@@ -1,0 +1,35 @@
+login biasa ada create akun
+login kedua dilakukan saat belum pernah login
+login pertama dilakukan saat sudah pernah login 
+
+LOGIN APP
+masukann user password
+jika belum maka seharusanya melakukan daftar
+jika sudah maka silahkan login
+
+jika sudah login maka menampilkan login yang kedua
+jika sudah pernah login maka dia masuk ke list loginnya
+
+DATA DASHBOARD 
+- uptime
+- CPU
+- CPU LOAD
+- TOTAL HDD
+- FREE HDD
+- TOTAL MEMORY
+- FREE MEMORY
+- BOARD NAME
+
+- realtime interface (trafic)
+- grafik
+
+INTERFACE
+data interface
+id-17.hostddns.us:10269
+windy
+admin
+
+di login nya yang user baru tetep bisa lihat riwayat login,
+trus data traffic yg realtime gak mau pindah ether sama grafiknya belom
+trus yg terakhir notiv mas
+Seng ngirin notif wa mas

@@ -69,7 +69,7 @@
                 	</a>
                 </li>
                 <li class="nav-item">
-                	<a class="nav-link" href="{{url('auth/logout')}}" onclick="return confirm('Apakah anda yakin akan keluar?')" role="button">
+                	<a class="nav-link" href="{{url('choice/logout')}}" onclick="return confirm('Apakah anda yakin akan keluar?')" role="button">
                 		<i class="fas fa-sign-out-alt"></i>
                 	</a>
                 </li>

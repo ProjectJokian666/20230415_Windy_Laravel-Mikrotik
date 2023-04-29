@@ -24,7 +24,7 @@
 					</thead>
 					<tbody>
 						<?php
-						$a=1100;
+						$a=110;
 						$da[]=array();
 						for ($i=1; $i < $a; $i++) { 
 							array_push($da,$i);

@@ -13,13 +13,16 @@
 			<p class="login-box-msg">PILIH AKSI</p>
 
 			<form action="{{url('post_login')}}" method="post">
-				<div class="row mb-3">
+				<div class="row">
 					<!-- /.col -->
-					<div class="col-6">
-						<a href="{{url('choice/list_akun')}}" class="btn btn-primary btn-block">LIST AKUN MIKROTIK</a>
+					<div class="col-6 mb-3">
+						<a href="{{url('choice/list_akun')}}" class="btn btn-primary btn-block text-bold">LIST AKUN MIKROTIK</a>
 					</div>
-					<div class="col-6">
-						<a href="{{url('choice/login_akun')}}" class="btn btn-success btn-block">LOGIN AKUN MIKROTIK</a>
+					<div class="col-6 mb-3">
+						<a href="{{url('choice/login_akun')}}" class="btn btn-success btn-block text-bold">LOGIN AKUN MIKROTIK</a>
+					</div>
+					<div class="col-6 mb-3">
+						<a href="{{url('choice/notif_akun')}}" class="btn btn-warning btn-block text-bold">NOTIF AKUN MIKROTIK</a>
 					</div>
 				</div>
 				<div class="row">

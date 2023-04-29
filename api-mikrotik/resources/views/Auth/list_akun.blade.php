@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<div class="card p-3">
+<div class="card p-3 login-box" style="width:1000px">
 
   <div class="d-flex justify-content-center">
     <div class="mb-3">
@@ -42,14 +42,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php
-      $a=1100;
-      $da[]=array();
-      for ($i=1; $i < $a; $i++) { 
-        array_push($da,$i);
-      } 
-      ?>
-      @foreach($da as $key => $value)
+      @foreach($data['list_akun'] as $key => $value)
       <form action="{{url('choice/list_akun',$key)}}" method="post">
         <tr>
           <td>{{$loop->iteration}}</td>

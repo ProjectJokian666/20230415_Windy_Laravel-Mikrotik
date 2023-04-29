@@ -2,6 +2,10 @@
 
 @section('title','Register')
 
+@push('csss')
+<link rel="stylesheet" href="{{asset('template/plugins/toastr/toastr.min.css')}}">
+@endpush
+
 @section('content')
 <div class="login-box">
 	<div class="login-logo">
@@ -12,7 +16,8 @@
 		<div class="card-body login-card-body">
 			<p class="login-box-msg">Registrasi Admin</p>
 
-			<form action="{{url('post_login')}}" method="post">
+			<form action="{{url('post_register')}}" method="post">
+				@csrf
 				<div class="input-group mb-3">
 					<input type="text" name="username" class="form-control" placeholder="Username">
 					<div class="input-group-append">
@@ -50,3 +55,28 @@
 </div>
 <!-- /.login-box -->
 @endsection
+
+@push('jss')
+<script src="{{asset('template/plugins/toastr/toastr.min.js')}}"></script>
+<script>
+	// console.log({!!json_encode(session('status'))!!});
+	if ({!!json_encode(session('gagal'))!!}) {
+		$(document).Toasts('create', {
+			title: 'Status Login',
+			class: 'bg-danger',
+			autohide: true,
+			delay: 2000,
+			body: {!!json_encode(session('gagal'))!!}
+		});
+	}
+	if ({!!json_encode(session('sukses'))!!}) {
+		$(document).Toasts('create', {
+			title: 'Status Login',
+			class: 'bg-success',
+			autohide: true,
+			delay: 2000,
+			body: {!!json_encode(session('sukses'))!!}
+		});
+	}
+</script>
+@endpush

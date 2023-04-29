@@ -12,7 +12,8 @@
 		<div class="card-body login-card-body">
 			<p class="login-box-msg">Login Untuk Masuk Pada Monitoring Router Mikrotik</p>
 
-			<form action="{{url('choice/post_login')}}" method="post">
+			<form action="{{url('choice/post_login_akun')}}" method="post">
+				@csrf
 				<div class="input-group mb-3">
 					<input type="text" name="ip" class="form-control" placeholder="IP Address">
 					<div class="input-group-append">
@@ -21,6 +22,7 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="input-group mb-3">
 					<input type="text" name="user" class="form-control" placeholder="User">
 					<div class="input-group-append">
@@ -29,6 +31,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="input-group mb-3">
 					<input type="password" name="password" class="form-control" placeholder="Password">
 					<div class="input-group-append">
@@ -37,6 +40,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<!-- /.col -->
 				<div class="row">
 					<div class="col-6">
@@ -48,6 +52,7 @@
 				</div>
 				<!-- /.col -->
 			</form>
+
 		</div>
 	</div>
 </div>

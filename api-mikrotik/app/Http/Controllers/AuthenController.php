@@ -109,6 +109,25 @@ class AuthenController extends Controller
         ];
         return view('Auth.list_akun',compact('data'));
     }
+    public function list_akun_id($id)
+    {
+        $data = Login::find($id);
+        // dd($id,$data);
+
+        $API = new RouterOsApi();
+        // dd($API->debug,$API);
+        $API->debug = false;
+        // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-17.hostddns.us:10269","windy","admin1"));
+        if ($API->connect($data->ip, $data->user, $data->password)) {
+            request()->session()->put($data);
+            $this->insert_data_login_dan_check_data();
+            return redirect('/');
+        }
+        else{
+            // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"));
+            return redirect()->route('choice.list_akun');
+        }
+    }
     public function login_akun()
     {   
         if (session()->get('ip')&&session()->get('user')&&session()->get('password')) {
@@ -131,7 +150,7 @@ class AuthenController extends Controller
         $API = new RouterOsApi();
         // dd($API->debug,$API);
         $API->debug = false;
-        // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-17.hostddns.us:10269","windy","admin1"));
+        // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-26.hostddns.us:7871","chosyi","12345"));
         if ($API->connect($request->ip, $request->user, $request->password)) {
             $request->session()->put($data);
             $this->insert_data_login_dan_check_data();

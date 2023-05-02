@@ -43,17 +43,15 @@
     </thead>
     <tbody>
       @foreach($data['list_akun'] as $key => $value)
-      <form action="{{url('choice/list_akun',$key)}}" method="post">
-        <tr>
-          <td>{{$loop->iteration}}</td>
-          <td>id-17.hostddns.us:10269</td>
-          <td>windy</td>
-          <td>admin{{$loop->iteration}}</td>
-          <td>
-            <button type="submit" class="btn btn-primary btn-block btn-sm">Sign In </button>
-          </td>
-        </tr>
-      </form>
+      <tr>
+        <td  id="no">{{$loop->iteration}}</td>
+        <td  id="ip">{{$value->ip}}</td>
+        <td  id="username">{{$value->username}}</td>
+        <td  id="password">{{$value->password}}</td>
+        <td>
+          <a href="{{url('choice/list_akun',$value->id)}}" class="btn btn-primary btn-block btn-sm">Sign In</a>
+        </td>
+      </tr>
       @endforeach
     </tbody>
   </table>
@@ -75,5 +73,6 @@
       "responsive": true,
     });
   });
+
 </script>
 @endpush

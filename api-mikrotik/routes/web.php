@@ -26,14 +26,15 @@ Route::middleware('auth')->group(function(){
 
         //menampilkan list akun masuk kedalam mikrotik
         Route::get('list_akun',[Authen::class,'list_akun'])->name('.list_akun');
+        Route::post('post_list_akun',[Authen::class,'post_list_akun'])->name('.post_list_akun');
 
         //menampilkan form untuk login kedalam sistem mikrotik
         Route::get('login_akun',[Authen::class,'login_akun'])->name('.login_akun'); 
         Route::post('post_login_akun',[Authen::class,'post_login_akun'])->name('.post_login_akun'); 
+        Route::get('list_akun/{id}',[Authen::class,'list_akun_id'])->name('.list_akun_id'); 
 
         //menampilkan form untuk notif kedalam sistem mikrotik
         Route::get('notif_akun',[Authen::class,'notif_akun'])->name('.notif_akun'); 
-        Route::post('simpan_notif_akun',[Authen::class,'simpan_notif_akun'])->name('.simpan_notif_akun'); 
 
         Route::get('logout',[Dashboard::class,'logout'])->name('.logout'); 
     });

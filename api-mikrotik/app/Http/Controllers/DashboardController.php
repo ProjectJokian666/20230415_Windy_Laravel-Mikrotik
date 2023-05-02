@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RouterOsApi;
+use App\Models\RouterOsApi2;
 
 class DashboardController extends Controller
 {   
@@ -187,6 +188,30 @@ class DashboardController extends Controller
         $API->debug = false;
 
         if ($API->connect($ip, $user, $password)) {
+
+            $total_hdd = $API->comm('/system/resource/print');
+            // dd($total_hdd);
+            return response()->json($total_hdd['0']['total-hdd-space'],200);
+        } else {
+            return response()->json('0',200);
+        }
+    }
+    public function realtime_since_reboot()
+    {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi2();
+        $API->debug = false;
+
+        if ($API->connect("id-31.hostddns.us:5915", "windy", "admin")) {
+
+            $total_hdd = $API->comm('/system/resource/print');
+            // dd($total_hdd);
+            return response()->json($total_hdd['0']['total-hdd-space'],200);
+        } 
+        else if ($API->connect("id-17.hostddns.us:10269", "windy", "admin")) {
 
             $total_hdd = $API->comm('/system/resource/print');
             // dd($total_hdd);

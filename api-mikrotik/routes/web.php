@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function(){
 
         //menampilkan form untuk notif kedalam sistem mikrotik
         Route::get('notif_akun',[Authen::class,'notif_akun'])->name('.notif_akun'); 
+        Route::post('simpan_notif_akun',[Authen::class,'simpan_notif_akun'])->name('.simpan_notif_akun'); 
 
         Route::get('logout',[Dashboard::class,'logout'])->name('.logout'); 
     });

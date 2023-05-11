@@ -8,234 +8,172 @@ use App\Models\RouterOsApi2;
 
 class DashboardController extends Controller
 {   
-    private function check_login(){
-        // dd(Auth()->user());
-        // dd(session()->all());
-        if (session()->has('ip')==null&&session()->has('user')==null&&session()->has('password')==null) {
-            return redirect()->route('choice.login_akun');
-        }
-    }
     public function index()
     {   
-        $this->check_login();
-        return view('Mikrotik.index');
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)==false) {
+            return redirect()->route('choice.choice');
+        }
+
+        $data_interface = array();
+        // dd($data);
+        if ($API->connect($ip, $user, $password)) {
+            $interface = $API->comm('/interface/print');
+            foreach($interface as $i){
+                if ($i['type']=="ether") {
+                    array_push($data_interface,[
+                        "name"=>$i['name'],
+                        "type"=>$i['type'],
+                        "mac_address"=>$i['mac-address'],
+                        "running"=>$i['running'],
+                        "disabled"=>$i['disabled'],
+                    ]);
+                }
+            }
+            // dd($data);
+        //     return response()->json($uptime['0']['uptime'],200);
+        }
+        $data = [
+            'interface' => $data_interface
+        ];
+        // dd($data);
+        return view('Mikrotik.index',compact('data'));
     }
     public function interfaces()
     {
-        return view('Mikrotik.interfaces');
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)==false) {
+            return redirect()->route('choice.choice');
+        }
+
+        $data_interface = array();
+        // dd($interface);
+        if ($API->connect($ip, $user, $password)) {
+            $interface = $API->comm('/interface/print');
+            // dd($interface);
+            foreach($interface as $i){
+                if ($i['type']=="ether") {
+                    array_push($data_interface,[
+                        "name"=>$i['name'],
+                        "type"=>$i['type'],
+                        "mac_address"=>$i['mac-address'],
+                        "running"=>$i['running'],
+                        "disabled"=>$i['disabled'],
+                    ]);
+                }
+            }
+            // dd($interface);
+        }
+        $data = [
+            'interface' => $data_interface,
+        ];
+        // dd($data);
+        return view('Mikrotik.interfaces',compact('data'));
     }
     public function log()
     {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)==false) {
+            return redirect()->route('choice.choice');
+        }
+
         return view('Mikrotik.log');
     }
+    public function get_log(Request $request)
+    {
+        // dd($request);
+        $API = new RouterOsApi();
+        $API->debug = false;
+        
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
 
+        if ($API->connect($ip, $user, $password)) {
+            $hasil_log = $API->comm("/log/print");
+            // foreach($hasil_log as $key => $value){
+            //     array_push($data_log,[
+            //         'time' => $value['time'],
+            //         'topic' => $value['topic'],
+            //         'message' => $value['message'],
+            //     ]);
+            // }
+        }
+
+        // dd($hasil_log);
+
+        $limit = is_null($request["length"]) ? 10 : $request["length"];
+        $offset = is_null($request["start"]) ? 0 : $request["start"];
+        $draw = $request["draw"];
+        
+        // dd($request->search);
+
+        $search = is_null($request->search) ? '' : $request->search['value'];
+
+        // if (!empty($search)) {
+        //     $data_log = $data_log
+        //     ->where('time','LIKE','%'.$search.'%')
+        //     orWhere('topic','LIKE','%'.$search.'%')
+        //     orWhere('message','LIKE','%'.$search.'%');
+        // }
+
+        $get_count = count($hasil_log);
+        // dd($get_count);
+        // $data_log = $data_log
+        // ->limit($limit)
+        // ->offset($offset)
+        // ->get();
+
+        $data=[];
+        foreach ($hasil_log as $key => $value) {
+            // dd($value);
+            $data[]=array(
+                'time' => $value['time'],
+                'topic' => $value['topics'],
+                'message' => $value['message'],
+            );
+        }
+
+        // dd($data_log);
+        $recordsTotal = is_null($get_count) ? 0 : $get_count;
+        $recordsFiltered = is_null($get_count) ? 0 : $get_count;
+
+        return response()->json(compact("data", "draw", "recordsTotal", "recordsFiltered"));
+    }
+    public function realtime_log()
+    {
+    }
     public function resources()
     {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)==false) {
+            return redirect()->route('choice.choice');
+        }
+
         return view('Mikrotik.resources');
-    }
-
-    public function realtime_uptime()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $uptime = $API->comm('/system/resource/print');
-
-            return response()->json($uptime['0']['uptime'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_free_memory()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $free_memory = $API->comm('/system/resource/print');
-            // dd($free_memory);
-            return response()->json($free_memory['0']['free-memory'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_total_memory()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $total_memory = $API->comm('/system/resource/print');
-            // dd($total_memory);
-            return response()->json($total_memory['0']['total-memory'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_cpu()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $cpu = $API->comm('/system/resource/print');
-            // dd($cpu);
-            return response()->json($cpu['0']['cpu'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_cpu_count()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $cpu_count = $API->comm('/system/resource/print');
-            // dd($cpu_count);
-            return response()->json($cpu_count['0']['cpu-count'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_cpu_frequency()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $cpu_frequency = $API->comm('/system/resource/print');
-            // dd($cpu_frequency);
-            return response()->json($cpu_count['0']['cpu-count'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_cpu_load()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $cpu_load = $API->comm('/system/resource/print');
-            // dd($cpu_load);
-            return response()->json($cpu_load['0']['cpu-load'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_free_hdd()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $total_hdd_space = $API->comm('/system/resource/print');
-            // dd($total_hdd_space);
-            return response()->json($total_hdd_space['0']['free-hdd-space'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_total_hdd()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $total_hdd = $API->comm('/system/resource/print');
-            // dd($total_hdd);
-            return response()->json($total_hdd['0']['total-hdd-space'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_since_reboot()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi2();
-        $API->debug = false;
-
-        if ($API->connect("id-31.hostddns.us:5915", "windy", "admin")) {
-
-            $total_hdd = $API->comm('/system/resource/print');
-            // dd($total_hdd);
-            return response()->json($total_hdd['0']['total-hdd-space'],200);
-        } 
-        else if ($API->connect("id-17.hostddns.us:10269", "windy", "admin")) {
-
-            $total_hdd = $API->comm('/system/resource/print');
-            // dd($total_hdd);
-            return response()->json($total_hdd['0']['total-hdd-space'],200);
-        } else {
-            return response()->json('0',200);
-        }
-    }
-    public function realtime_board()
-    {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
-
-        $API = new RouterOsApi();
-        $API->debug = false;
-
-        if ($API->connect($ip, $user, $password)) {
-
-            $board_name = $API->comm('/system/resource/print');
-            // dd($board_name);
-            return response()->json($board_name['0']['board-name'],200);
-        } else {
-            return response()->json('0',200);
-        }
     }
 }

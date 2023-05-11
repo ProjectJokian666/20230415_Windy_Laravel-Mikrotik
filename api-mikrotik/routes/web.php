@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthenController as Authen;
 use App\Http\Controllers\DashboardController as Dashboard;
+use App\Http\Controllers\RealtimeController as Realtime;
 
 
 Route::middleware('guest')->group(function(){
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function(){
 
     Route::prefix('choice')->name('choice')->group(function(){
         //menampilkan pilihan setelah login
-        Route::get('',[Authen::class,'choice']);
+        Route::get('',[Authen::class,'choice'])->name('.choice');
 
         //menampilkan list akun masuk kedalam mikrotik
         Route::get('list_akun',[Authen::class,'list_akun'])->name('.list_akun');
@@ -32,18 +33,45 @@ Route::middleware('auth')->group(function(){
         Route::get('login_akun',[Authen::class,'login_akun'])->name('.login_akun'); 
         Route::post('post_login_akun',[Authen::class,'post_login_akun'])->name('.post_login_akun'); 
         Route::get('list_akun/{id}',[Authen::class,'list_akun_id'])->name('.list_akun_id'); 
+        Route::get('list_akun/{id}/delete',[Authen::class,'delete_akun_id'])->name('.delete_akun_id'); 
 
         //menampilkan form untuk notif kedalam sistem mikrotik
         Route::get('notif_akun',[Authen::class,'notif_akun'])->name('.notif_akun'); 
+        Route::get('cek_notif',[Authen::class,'cek_notif'])->name('.cek_notif'); 
         Route::post('simpan_notif_akun',[Authen::class,'simpan_notif_akun'])->name('.simpan_notif_akun'); 
 
-        Route::get('logout',[Dashboard::class,'logout'])->name('.logout'); 
+        Route::get('logout',[Authen::class,'logout_akun'])->name('.logout'); 
     });
 
-    Route::get('/',[Dashboard::class,'index'])->name('');
+    Route::get('/',[Dashboard::class,'index'])->name('/');
     Route::get('interfaces',[Dashboard::class,'interfaces'])->name('interfaces');
     Route::get('log',[Dashboard::class,'log'])->name('log');
+    Route::get('get_log',[Dashboard::class,'get_log'])->name('get_log');
     Route::get('resources',[Dashboard::class,'resources'])->name('resources');
+
+    Route::prefix('realtime')->name('realtime')->group(function(){
+        // Resource
+        Route::get('uptime',[Realtime::class,'uptime'])->name('.uptime');
+        Route::get('free_memory',[Realtime::class,'free_memory'])->name('.free_memory');
+        Route::get('total_memory',[Realtime::class,'total_memory'])->name('.total_memory');
+        Route::get('cpu',[Realtime::class,'cpu'])->name('.cpu');
+        Route::get('cpu_count',[Realtime::class,'cpu_count'])->name('.cpu_count');
+        Route::get('cpu_frequency',[Realtime::class,'cpu_frequency'])->name('.cpu_frequency');
+        Route::get('cpu_load',[Realtime::class,'cpu_load'])->name('.cpu_load');
+        Route::get('free_hdd',[Realtime::class,'free_hdd'])->name('.free_hdd');
+        Route::get('total_hdd',[Realtime::class,'total_hdd'])->name('.total_hdd');
+        Route::get('since_reboot',[Realtime::class,'since_reboot'])->name('.since_reboot');
+        Route::get('total',[Realtime::class,'total'])->name('.total');
+        Route::get('architecture',[Realtime::class,'architecture'])->name('.architecture');
+        Route::get('board',[Realtime::class,'board'])->name('.board');
+        Route::get('version',[Realtime::class,'version'])->name('.version');
+        Route::get('build_time',[Realtime::class,'build_time'])->name('.build_time');
+        Route::get('factory_software',[Realtime::class,'factory_software'])->name('.factory_software');
+
+        // Report Ethernet
+        Route::get('tx/{tx}',[Realtime::class,'tx'])->name('.tx');
+        Route::get('rx/{rx}',[Realtime::class,'rx'])->name('.rx');
+    });
 
     //realtime data
     Route::get('realtime_uptime',[Dashboard::class,'realtime_uptime'])->name('realtime_uptime');

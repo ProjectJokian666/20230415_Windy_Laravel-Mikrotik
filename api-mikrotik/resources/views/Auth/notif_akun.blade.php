@@ -36,7 +36,8 @@
 				<td contenteditable=true id="tele">{{$data['notif']->telegram}}</td>
 				<td contenteditable=true id="email">{{$data['notif']->email}}</td>
 				<td>
-					<button class="btn-sm btn-success" id="simpan">SIMPAN</button>
+					<button class="btn btn-sm btn-success" id="simpan">SIMPAN</button>
+					<button class="btn btn-sm btn-info" id="cek_notif">CEK NOTIF</button>
 				</td>
 			</tr>
 		</tbody>
@@ -64,12 +65,37 @@
 			},
 			success:function(data){
 				// if (data.sukses=="ok") {
+				
+				// }
+				// console.log("sukses",data.sukses)
+			},
+			error:function(data) {
+				console.log("eror",data)
+			}
+
+		});
+		// console.log();
+	});
+	$(document).on('click','#cek_notif',function(){
+		let wa = $('#wa').text();
+		let tele = $('#tele').text();
+		let email = $('#email').text();
+		$.ajax({
+			url:"{{route('choice.cek_notif')}}",
+			type:"GET",
+			data:{
+				"wa":wa,
+				"tele":tele,
+				"email":email,
+			},
+			success:function(data){
+				// if (data.sukses=="ok") {
 
 				// }
 				// console.log("sukses",data.sukses)
 			},
 			error:function(data) {
-				// console.log("eror",data)
+				console.log("eror",data)
 			}
 
 		});

@@ -22,7 +22,7 @@
 							<th>Messages</th>
 						</tr>
 					</thead>
-					<tbody>
+					<!-- <tbody>
 						<?php
 						$a=110;
 						$da[]=array();
@@ -40,7 +40,9 @@
 							</tr>
 						</form>
 						@endforeach
-					</tbody>
+					</tbody> -->
+
+
 				</table>
 			</div>
 		</div>
@@ -63,6 +65,22 @@
 			"info": false,
 			"autoWidth": false,
 			"responsive": true,
+			ajax:{
+				url:"{{route('get_log')}}",
+				type:"get",
+				contentType: 'application/json',
+			},
+			columns:[
+			{
+				data:null,
+				render:function(data,type,row,meta){
+					return meta.row + meta.settings._iDisplayStart+1
+				}
+			},
+			{data:"time"},
+			{data:"topic"},
+			{data:"message"},
+			]
 		});
 	});
 </script>

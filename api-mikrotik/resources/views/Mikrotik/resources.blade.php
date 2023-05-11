@@ -73,231 +73,72 @@
 
 @push('jss')
 <script type="text/javascript">
-	setInterval("uptime();",1000);
+	setInterval(()=>{
+		uptime();
+		free_memory();
+		total_memory();
+		cpu();
+		cpu_count();
+		cpu_frequency();
+		cpu_load();
+		free_hdd();
+		total_hdd();
+		since_reboot();
+		total();
+		architecture();
+		board();
+		version();
+		build_time();
+		factory_software();
+	},5000);
+
 	function uptime() {
-		$.ajax({
-			url:"{{route('realtime_uptime')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_uptime').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_uptime').text('0');
-			}
-		})
+		$('#show_data_uptime').load('{{route('realtime.uptime')}}');
 	}
-
-	setInterval("free_memory();",1000);
 	function free_memory() {
-		$.ajax({
-			url:"{{route('realtime_free_memory')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_free_memory').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_free_memory').text('0');
-			}
-		})
+		$('#show_data_free_memory').load('{{route('realtime.free_memory')}}');
 	}
-
-	setInterval("total_memory();",1000);
 	function total_memory() {
-		$.ajax({
-			url:"{{route('realtime_total_memory')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_total_memory').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_total_memory').text('0');
-			}
-		})
+		$('#show_data_total_memory').load('{{route('realtime.total_memory')}}');
 	}
-
-	setInterval("cpu();",1000);
 	function cpu(){
-		$.ajax({
-			url:"{{route('realtime_cpu')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_cpu").text(data);
-			},
-			error:function(data){
-				$("#show_data_cpu").text('0')
-			}
-		})
+		$("#show_data_cpu").load('{{route('realtime.cpu')}}');
 	}
-	
-	setInterval("cpu_count();",1000);
 	function cpu_count() {
-		$.ajax({
-			url:"{{route('realtime_cpu_count')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_cpu_count").text(data);
-			},
-			error:function(data){
-				$("#show_data_cpu_count").text('0')
-			}
-		})
+		$("#show_data_cpu_count").load('{{route('realtime.cpu_count')}}');
 	}
-	
-	setInterval("cpu_frequency();",1000);
 	function cpu_frequency() {
-		$.ajax({
-			url:"{{route('realtime_cpu_frequency')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_cpu_frequency").text(data);
-			},
-			error:function(data){
-				$("#show_data_cpu_frequency").text('0')
-			}
-		})
+		$("#show_data_cpu_frequency").load('{{route('realtime.cpu_frequency')}}');
 	}
-	
-	setInterval("cpu_load();",1000);
 	function cpu_load() {
-		$.ajax({
-			url:"{{route('realtime_cpu_load')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_cpu_load").text(data);
-			},
-			error:function(data){
-				$("#show_data_cpu_load").text('0')
-			}
-		})
+		$("#show_data_cpu_load").load('{{route('realtime.cpu_load')}}');
 	}
-	
-	setInterval("free_hdd();",1000);
 	function free_hdd() {
-		$.ajax({
-			url:"{{route('realtime_free_hdd')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_free_hdd").text(data);
-			},
-			error:function(data){
-				$("#show_data_free_hdd").text('0')
-			}
-		})
+		$("#show_data_free_hdd").load('{{route('realtime.free_hdd')}}');
 	}
-	
-	setInterval("total_hdd();",1000);
 	function total_hdd() {
-		$.ajax({
-			url:"{{route('realtime_total_hdd')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_total_hdd").text(data);
-			},
-			error:function(data){
-				$("#show_data_total_hdd").text('0')
-			}
-		})
+		$("#show_data_total_hdd").load('{{route('realtime.total_hdd')}}');
 	}
-	
-	setInterval("since_reboot();",1000);
 	function since_reboot() {
-		$.ajax({
-			url:"{{route('realtime_since_reboot')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_since_reboot").text(data);
-			},
-			error:function(data){
-				$("#show_data_since_reboot").text('0')
-			}
-		})
+		$("#show_data_since_reboot").load('{{route('realtime.since_reboot')}}');
 	}
-	
-	setInterval("total();",1000);
 	function total() {
-		$.ajax({
-			url:"{{route('realtime_total')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_total").text(data);
-			},
-			error:function(data){
-				$("#show_data_total").text('0')
-			}
-		})
+		$("#show_data_total").load('{{route('realtime.total_hdd')}}');
 	}
-	
-	setInterval("architecture();",1000);
 	function architecture(){
-		$.ajax({
-			url:"{{route('realtime_architecture')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_architecture").text(data);
-			},
-			error:function(data){
-				$("#show_data_architecture").text('0')
-			}
-		})
+		$("#show_data_architecture").load('{{route('realtime.architecture')}}');
 	}
-	
-	setInterval("board();",1000);
 	function board(){
-		$.ajax({
-			url:"{{route('realtime_board')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_board").text(data);
-			},
-			error:function(data){
-				$("#show_data_board").text('0')
-			}
-		})
+		$("#show_data_board").load('{{route('realtime.board')}}');
 	}
-	
-	setInterval("version();",1000);
 	function version(){
-		$.ajax({
-			url:"{{route('realtime_version')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_version").text(data);
-			},
-			error:function(data){
-				$("#show_data_version").text('0')
-			}
-		})
+		$("#show_data_version").load('{{route('realtime.version')}}');
 	}
-	
-	setInterval("build_time();",1000);
 	function build_time(){
-		$.ajax({
-			url:"{{route('realtime_build_time')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_build_time").text(data);
-			},
-			error:function(data){
-				$("#show_data_build_time").text('0')
-			}
-		})
+		$("#show_data_build_time").load('{{route('realtime.build_time')}}');
 	}
-	
-	setInterval("factory_software();",1000);
 	function factory_software(){
-		$.ajax({
-			url:"{{route('realtime_factory_software')}}",
-			type:"GET",
-			success:function(data){
-				$("#show_data_factory_software").text(data);
-			},
-			error:function(data){
-				$("#show_data_factory_software").text('0')
-			}
-		})
+		$("#show_data_factory_software").load('{{route('realtime.factory_software')}}');
 	}
 
 </script>

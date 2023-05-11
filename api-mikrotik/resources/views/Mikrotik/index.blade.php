@@ -101,20 +101,39 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 p-3">
-				<select name="interface" id="interface">
-					<option value="">Ether1</option>
-					<option value="">Ether1</option>
-					<option value="">Ether1</option>
-					<option value="">Ether1</option>
-					<option value="">Ether1</option>
+			<div class="col-6 p-3">
+				<select name="interface" id="interface" style="width:100%;">
+					@foreach($data['interface'] as $key => $value)
+					<option value="{{$value['name']}}">{{$value['name']}}</option>
+					@endforeach
 				</select>
+			</div>
+			<div class="col-6 p-3">
+				Traffic Tx : <span id="traffic_tx">0</span>, Traffic Rx : <span id="traffic_rx">0</span>
 			</div>
 		</div>
 		<div class="row mb-3">
 			<div class="col-12">
-				<!-- interactive chart -->
-				<div id="interactive" style="height: 250px;"></div>
+				<div class="card card-primary card-outline">
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="far fa-chart-bar"></i>
+							Interactive Area Chart
+						</h3>
+
+						<div class="card-tools">
+							Real time
+							<div class="btn-group" id="realtime" data-toggle="btn-toggle">
+								<button type="button" class="btn btn-default btn-sm active" data-toggle="on">On</button>
+								<button type="button" class="btn btn-default btn-sm" data-toggle="off">Off</button>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div id="interactive" style="height: 300px;"></div>
+					</div>
+					<!-- /.card-body-->
+				</div>
 			</div>
 		</div>
 	</div>
@@ -125,227 +144,88 @@
 <script src="{{asset('template')}}/plugins/flot/jquery.flot.js"></script>
 <script>
 // realtime data uptime
-	setInterval("showdatauptime();",1000);
+	setInterval(()=>{
+		showdatauptime();
+		showdatacpu();
+		showdatacpu_load();
+		showdatacpu_loadtotal_hdd();
+		showdatafree_hdd();
+		showdatatotal_memory();
+		showdatafree_memory();
+		showdataboard();
+		showtraffictx();
+		showtrafficrx();
+	},5000);
 	function showdatauptime() {
-		$.ajax({
-			url:"{{route('realtime_uptime')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_uptime').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_uptime').text('0');
-			}
-		})
+		$('#show_data_uptime').load('{{route('realtime.uptime')}}');
 	}
-
-	setInterval("showdatacpu();",1000);
 	function showdatacpu() {
-		$.ajax({
-			url:"{{route('realtime_cpu')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_cpu').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_cpu').text('0');
-			}
-		})
+		$('#show_data_cpu').load('{{route('realtime.cpu')}}');
 	}
-
-	setInterval("showdatacpu_load();",1000);
 	function showdatacpu_load() {
-		$.ajax({
-			url:"{{route('realtime_cpu_load')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_cpu_load').text(data+" %");
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_cpu_load').text('0 %');
-			}
-		})
+		$('#show_data_cpu_load').load('{{route('realtime.cpu_load')}}');
 	}
-
-	setInterval("showdatacpu_loadtotal_hdd();",1000);
 	function showdatacpu_loadtotal_hdd() {
-		$.ajax({
-			url:"{{route('realtime_total_hdd')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_total_hdd').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_total_hdd').text('0');
-			}
-		})
+		$('#show_data_total_hdd').load('{{route('realtime.free_hdd')}}');
 	}
-
-	setInterval("showdatafree_hdd();",1000);
 	function showdatafree_hdd() {
-		$.ajax({
-			url:"{{route('realtime_free_hdd')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_free_hdd').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_free_hdd').text('0');
-			}
-		})
+		$('#show_data_free_hdd').load('{{route('realtime.total_hdd')}}');
 	}
-
-	setInterval("showdatatotal_memory();",1000);
 	function showdatatotal_memory() {
-		$.ajax({
-			url:"{{route('realtime_total_memory')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_total_memory').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_total_memory').text('0');
-			}
-		})
+		$('#show_data_total_memory').load('{{route('realtime.total_memory')}}');
 	}
-
-	setInterval("showdatafree_memory();",1000);
 	function showdatafree_memory() {
-		$.ajax({
-			url:"{{route('realtime_free_memory')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_free_memory').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_free_memory').text('0');
-			}
-		})
+		$('#show_data_free_memory').load('{{route('realtime.free_memory')}}');
 	}
-
-	setInterval("showdataboard();",1000);
 	function showdataboard() {
-		$.ajax({
-			url:"{{route('realtime_board')}}",
-			type:"GET",
-			success:function(data){
-				$('#show_data_board').text(data);
-				// console.log(data)
-			},
-			error:function(data){
-				$('#show_data_board').text('0');
-			}
-		})
+		$('#show_data_board').load('{{route('realtime.board')}}');
 	}
-
-	$(function(){
-		/*
-     * Flot Interactive Chart
-     * -----------------------
-     */
-    // We use an inline data source in the example, usually data would
-    // be fetched from a server
-		var data        = [],
-		totalPoints = 100
-
-		function getRandomData() {
-
-			if (data.length > 0) {
-				data = data.slice(1)
-			}
-
-      // Do a random walk
-			while (data.length < totalPoints) {
-
-				var prev = data.length > 0 ? data[data.length - 1] : 50,
-				y    = prev + Math.random() * 10 - 5
-
-				if (y < 0) {
-					y = 0
-				} else if (y > 100) {
-					y = 100
-				}
-
-				data.push(y)
-			}
-
-      // Zip the generated y values with the x values
-			var res = []
-			for (var i = 0; i < data.length; ++i) {
-				res.push([i, data[i]])
-			}
-
-			return res
+	function showtraffictx() {
+		let data_interface = $('#interface').val();
+		let join_data = "";
+		if (data_interface!=null) {
+			let split_data = data_interface.split(" ");
+			join_data = split_data.join('%20');
+		}
+		else{
+			join_data = "";
 		}
 
-		var interactive_plot = $.plot('#interactive', [
-		{
-			data: getRandomData(),
+		var url = "{{route('realtime.tx','isi')}}";
+
+		// $.ajax({
+		// 	url:url.replace('isi',join_data),
+		// 	type:"GET",
+		// 	success:function(data){
+		// 		$('#traffic_tx').text(data);
+		// 		$('#traffic_rx').text(data);
+		// 		// console.log(data);
+		// 	},
+		// 	error:function(data){
+		// 		// console.log(data);
+		// 	}
+		// });
+
+		$('#traffic_tx').load(url.replace('isi',join_data));
+		// var data_rx="";
+		// data_rx.load(url.replace('isi',join_data);
+		// $('#traffic_tx').text("a");
+		// $('#traffic_rx').text("a");
+	}
+	function showtrafficrx() {
+		let data_interface = $('#interface').val();
+		let join_data = "";
+		if (data_interface!=null) {
+			let split_data = data_interface.split(" ");
+			join_data = split_data.join('%20');
 		}
-		],
-		{
-			grid: {
-				borderColor: '#f3f3f3',
-				borderWidth: 1,
-				tickColor: '#f3f3f3'
-			},
-			series: {
-				color: '#3c8dbc',
-				lines: {
-					lineWidth: 2,
-					show: true,
-					fill: true,
-				},
-			},
-			yaxis: {
-				min: 0,
-				max: 100,
-				show: true,
-				fontcolor: '#ffffff',
-			},
-			xaxis: {
-				show: true
-			}
+		else{
+			join_data = "";
 		}
-		)
 
-    var updateInterval = 1000 //Fetch data ever x milliseconds
-    var realtime       = 'on' //If == to on then fetch data every x seconds. else stop fetching
-    function update() {
+		var url = "{{route('realtime.rx','isi')}}";
 
-    	interactive_plot.setData([getRandomData()])
-
-      // Since the axes don't change, we don't need to call plot.setupGrid()
-    	interactive_plot.draw()
-    	if (realtime === 'on') {
-    		setTimeout(update, updateInterval)
-    	}
-    }
-
-    //INITIALIZE REALTIME DATA FETCHING
-    if (realtime === 'on') {
-    	update()
-    }
-    //REALTIME TOGGLE
-    $('#realtime .btn').click(function () {
-    	if ($(this).data('toggle') === 'on') {
-    		realtime = 'on'
-    	}
-    	else {
-    		realtime = 'off'
-    	}
-    	update()
-    })
-    /*
-     * END INTERACTIVE CHART
-     */
-  })
+		$('#traffic_rx').load(url.replace('isi',join_data));
+	}
 </script>
 @endpush

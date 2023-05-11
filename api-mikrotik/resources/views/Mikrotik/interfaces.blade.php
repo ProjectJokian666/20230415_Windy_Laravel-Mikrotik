@@ -14,37 +14,24 @@
 		<table class="table table-bordered table-sm text-center" id="dataTable">
 			<thead>
 				<tr>
+					<th>No</th>
 					<th>Name</th>
 					<th>Type</th>
 					<th>Mac-Address</th>
-					<th>Rx-Byte</th>
-					<th>Tx-Byte</th>
-					<th>Dynamic</th>
 					<th>Running</th>
 					<th>Disabled</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php
-				$a=100;
-				$da[]=array();
-				for ($i=1; $i < $a; $i++) { 
-					array_push($da,$i);
-				} 
-				?>
-				@foreach($da as $key => $value)
-				<form action="{{url('choice/list_akun',$key)}}" method="post">
-					<tr>
-						<td>Name</td>
-						<td>Type</td>
-						<td>Mac-Address</td>
-						<td>Rx-Byte</td>
-						<td>Tx-Byte</td>
-						<td>Dynamic</td>
-						<td>Running</td>
-						<td>Disabled</td>
-					</tr>
-				</form>
+				@foreach($data['interface'] as $key => $value)
+				<tr>
+					<td>{{$loop->iteration}}</td>
+					<td>{{$value['name']}}</td>
+					<td>{{$value['type']}}</td>
+					<td>{{$value['mac_address']}}</td>
+					<td>{{$value['running']}}</td>
+					<td>{{$value['disabled']}}</td>
+				</tr>
 				@endforeach
 			</tbody>
 		</table>
@@ -67,6 +54,7 @@
 			"info": false,
 			"autoWidth": false,
 			"responsive": true,
+			
 		});
 	});
 </script>

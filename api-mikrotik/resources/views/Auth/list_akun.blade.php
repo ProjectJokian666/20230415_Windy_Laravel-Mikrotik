@@ -49,7 +49,8 @@
         <td  id="username">{{$value->username}}</td>
         <td  id="password">{{$value->password}}</td>
         <td>
-          <a href="{{url('choice/list_akun',$value->id)}}" class="btn btn-primary btn-block btn-sm">Sign In</a>
+          <a href="{{url('choice/list_akun',$value->id)}}" class="btn btn-primary btn-sm">Sign In</a>
+          <a href="{{url('choice/list_akun',$value->id)}}/delete" class="btn btn-danger btn-sm">Delete</a>
         </td>
       </tr>
       @endforeach

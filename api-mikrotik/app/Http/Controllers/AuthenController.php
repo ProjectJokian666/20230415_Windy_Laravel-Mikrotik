@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Login;
 use App\Models\Notif;
 
 use App\Models\RouterOsApi;
+use Twilio\Rest\Client;
 
 class AuthenController extends Controller
 {   
@@ -30,8 +32,8 @@ class AuthenController extends Controller
             if (Auth::attempt(['email'=>$data->cookie('email'),'password'=>$data->cookie('password')])) {
                 request()->session()->regenerate();
                 return redirect()->intended('choice')
-                ->cookie('email',$request->username,1000000,'/')
-                ->cookie('password',$request->password,1000000,'/')
+                ->cookie('email',$data->cookie('email'),1000000,'/')
+                ->cookie('password',$data->cookie('password'),1000000,'/')
                 ;
             }
             else{
@@ -92,6 +94,7 @@ class AuthenController extends Controller
     public function logout()
     {
         Auth::logout();
+        session()->flush();
         return redirect()->route('login')->with('sukses','Silahkan Login')
         ->with('sukses','Silahkan Login Untuk Melanjutkan')
         ->withoutCookie('email')
@@ -99,11 +102,33 @@ class AuthenController extends Controller
         ;
     }
     public function choice(Request $request)
-    {   
+    {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)) {
+            return redirect()->route('/');
+        }
+
         return view('Auth.choice');
     }
     public function list_akun()
     {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)) {
+            return redirect()->route('/');
+        }
+
         $data = [
             'list_akun' => Login::all(),
         ];
@@ -111,16 +136,21 @@ class AuthenController extends Controller
     }
     public function list_akun_id($id)
     {
-        $data = Login::find($id);
-        // dd($id,$data);
+        $data_login = Login::find($id);
+        // dd($id,$data_login);
+
+        $data = [
+            'ip' => $data_login->ip,
+            'user' => $data_login->username,
+            'password' => $data_login->password,
+        ];
 
         $API = new RouterOsApi();
         // dd($API->debug,$API);
         $API->debug = false;
         // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-17.hostddns.us:10269","windy","admin1"));
-        if ($API->connect($data->ip, $data->user, $data->password)) {
+        if ($API->connect($data_login->ip, $data_login->username, $data_login->password)) {
             request()->session()->put($data);
-            $this->insert_data_login_dan_check_data();
             return redirect('/');
         }
         else{
@@ -128,8 +158,15 @@ class AuthenController extends Controller
             return redirect()->route('choice.list_akun');
         }
     }
+    public function delete_akun_id($id)
+    {
+        $data_login = Login::find($id)->delete();
+        DB::statement("alter table login auto_increment=0");
+        return redirect()->route('choice.list_akun');
+    }
     public function login_akun()
     {   
+        // dd(session()->get('ip'),session()->get('user'),session()->get('password'));
         if (session()->get('ip')&&session()->get('user')&&session()->get('password')) {
             // dd("ada");
             $API = new RouterOsApi();
@@ -180,8 +217,25 @@ class AuthenController extends Controller
             // dd(Auth()->user()->id,session()->get('ip'),'ksong');
         }
     }
+    public function logout_akun()
+    {
+        session()->flush();
+        session()->regenerate();
+        return redirect()->route('choice.choice');
+    }
     public function notif_akun()
-    {   
+    {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        if ($API->connect($ip, $user, $password)) {
+            return redirect()->route('/');
+        }
+
         $cek_data = Notif::find(1);
         //cek data
         // dd($cek_data==null);
@@ -223,5 +277,17 @@ class AuthenController extends Controller
             ];
             return response()->json($data,200);
         }
+    }
+    public function cek_notif()
+    {
+        // dd(request()->wa,request()->tele,request()->email);
+        $twilio_whatsapp_number = "+14155238886";
+        $account_sid = "AC8c5b7f764b82196d0916e8e42cd070e7";
+        $auth_token = "700992db4bbd1bcb6f06e79c95a733bc";
+
+        $client = new Client($account_sid, $auth_token);
+        $message = "Coba Test Pesan Twilio";
+        $wa=request()->wa;
+        $data = $client->messages->create("whatsapp:$wa", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }

@@ -17,9 +17,35 @@ use Twilio\Rest\Client;
 
 class AuthenController extends Controller
 {   
+    const status_login_akun = false;
+    public function __construct(){
+
+    }
+
     public function login()
     {   
-        $this->auto_login(request());
+        // if (Auth()) {
+        //     dd(Auth());
+        // }
+        // $this->auto_login(request());
+        if (request()->cookie('status_login')&&request()->cookie('email')&&request()->cookie('password')) {
+            if (Auth::attempt(['email'=>request()->cookie('email'),'password'=>request()->cookie('password')])) {
+                request()->session()->regenerate();
+                return redirect()->intended('choice')
+                ->cookie('email',request()->cookie('email'),1000000,'/')
+                ->cookie('password',request()->cookie('password'),1000000,'/')
+                ->cookie('status_login','true',1000000,'/')
+                ;
+            }
+            else{
+                Auth::logout();
+                return redirect()->route('login')->with('gagal','Login Gagal!!!, Silahkan Daftar Terlebih Dahulu')
+                ->withoutCookie('email')
+                ->withoutCookie('password')
+                ->withoutCookie('status_login')
+                ;
+            }
+        }
         return view('Auth.login');
     }
 
@@ -34,6 +60,7 @@ class AuthenController extends Controller
                 return redirect()->intended('choice')
                 ->cookie('email',$data->cookie('email'),1000000,'/')
                 ->cookie('password',$data->cookie('password'),1000000,'/')
+                ->cookie('status_login','true',1000000,'/')
                 ;
             }
             else{
@@ -41,6 +68,7 @@ class AuthenController extends Controller
                 return redirect()->route('login')->with('gagal','Login Gagal!!!, Silahkan Daftar Terlebih Dahulu')
                 ->withoutCookie('email')
                 ->withoutCookie('password')
+                ->withoutCookie('status_login')
                 ;
             }
         }
@@ -54,9 +82,10 @@ class AuthenController extends Controller
         // dd($request);
         if (Auth::attempt(['email'=>$request->username,'password'=>$request->password])) {
             $request->session()->regenerate();
-            return redirect()->intended('choice')
+            return redirect()->intended('choice')->with('sukses','Silahkan Memilih Menu yang ada di atas')
             ->cookie('email',$request->username,1000000,'/')
             ->cookie('password',$request->password,1000000,'/')
+            ->cookie('status_login','true',1000000,'/')
             ;
         }
         else{
@@ -64,6 +93,7 @@ class AuthenController extends Controller
             return redirect('login')->with('gagal','Login Gagal!!!, Silahkan Daftar Terlebih Dahulu')
             ->withoutCookie('email')
             ->withoutCookie('password')
+            ->withoutCookie('status_login')
             ;
         }
     }
@@ -95,42 +125,44 @@ class AuthenController extends Controller
     {
         Auth::logout();
         session()->flush();
-        return redirect()->route('login')->with('sukses','Silahkan Login')
+        return redirect()->route('login')
         ->with('sukses','Silahkan Login Untuk Melanjutkan')
         ->withoutCookie('email')
         ->withoutCookie('password')
+        ->withoutCookie('status_login')
         ;
     }
     public function choice(Request $request)
     {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
+        // $ip = session()->get('ip');
+        // $user = session()->get('user');
+        // $password = session()->get('password');
 
-        $API = new RouterOsApi();
-        $API->debug = false;
+        // $API = new RouterOsApi();
+        // $API->debug = false;
 
-        if ($API->connect($ip, $user, $password)) {
-            return redirect()->route('/');
-        }
+        // if ($API->connect($ip, $user, $password)) {
+        //     return redirect()->route('/');
+        // }
 
         return view('Auth.choice');
     }
     public function list_akun()
     {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
+        // $ip = session()->get('ip');
+        // $user = session()->get('user');
+        // $password = session()->get('password');
 
-        $API = new RouterOsApi();
-        $API->debug = false;
+        // $API = new RouterOsApi();
+        // $API->debug = false;
 
-        if ($API->connect($ip, $user, $password)) {
-            return redirect()->route('/');
-        }
+        // if ($API->connect($ip, $user, $password)) {
+        //     return redirect()->route('/');
+        // }
+
 
         $data = [
-            'list_akun' => Login::all(),
+            'list_akun' => Login::where('id_adm','=',Auth()->user()->id)->get(),
         ];
         return view('Auth.list_akun',compact('data'));
     }
@@ -187,15 +219,22 @@ class AuthenController extends Controller
         $API = new RouterOsApi();
         // dd($API->debug,$API);
         $API->debug = false;
-        // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-26.hostddns.us:7871","chosyi","12345"));
+        // dd(
+        //     $request,
+        //     $API->connect($request->ip,$request->user,$request->password),
+        //     $API->connect("id-31.hostddns.us:5915","windy","admin"),
+        //     $API->connect("id-1.hostddns.us:4959","windy","admin")
+        // );
+        // dd($data);
         if ($API->connect($request->ip, $request->user, $request->password)) {
+            // dd('a');
             $request->session()->put($data);
             $this->insert_data_login_dan_check_data();
             return redirect('/');
         }
         else{
             // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"));
-            return redirect()->route('choice.login_akun');
+            return redirect()->route('choice.login_akun')->with('gagal','login ke monitoring mikrotik gagal');
         }
     }
     private function insert_data_login_dan_check_data(){
@@ -219,32 +258,32 @@ class AuthenController extends Controller
     }
     public function logout_akun()
     {
-        session()->flush();
+        session()->forget(['ip','user','password']);
         session()->regenerate();
-        return redirect()->route('choice.choice');
+        return redirect('choice');
     }
     public function notif_akun()
     {
-        $ip = session()->get('ip');
-        $user = session()->get('user');
-        $password = session()->get('password');
+        // $ip = session()->get('ip');
+        // $user = session()->get('user');
+        // $password = session()->get('password');
 
-        $API = new RouterOsApi();
-        $API->debug = false;
+        // $API = new RouterOsApi();
+        // $API->debug = false;
 
-        if ($API->connect($ip, $user, $password)) {
-            return redirect()->route('/');
-        }
+        // if ($API->connect($ip, $user, $password)) {
+        //     return redirect()->route('/');
+        // }
 
-        $cek_data = Notif::find(1);
-        //cek data
-        // dd($cek_data==null);
-        if ($cek_data==null) {
-            //jika data kosong maka akan diinsert dahulu
-            $input_data = Notif::create([
-                "id" => "1",
-            ]);
-        }
+        // $cek_data = Notif::find(1);
+        // //cek data
+        // // dd($cek_data==null);
+        // if ($cek_data==null) {
+        //     //jika data kosong maka akan diinsert dahulu
+        //     $input_data = Notif::create([
+        //         "id" => "1",
+        //     ]);
+        // }
         $data = [
             'notif' => Notif::find(1),
         ];

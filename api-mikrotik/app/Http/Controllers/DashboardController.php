@@ -10,6 +10,11 @@ class DashboardController extends Controller
 {   
     public function index()
     {   
+        // dd(
+            // session()->get('ip'),
+            // session()->get('user'),
+            // session()->get('password'),
+        // );
         $ip = session()->get('ip');
         $user = session()->get('user');
         $password = session()->get('password');

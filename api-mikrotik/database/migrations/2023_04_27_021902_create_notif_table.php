@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('notif', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_adm');
             $table->string('wa')->nullable();
             $table->string('telegram')->nullable();
             $table->string('email')->nullable();

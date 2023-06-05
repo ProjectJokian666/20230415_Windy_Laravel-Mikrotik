@@ -28,7 +28,7 @@ $(function () {
     return res;
   }
   // Set up the control widget
-  var updateInterval = 1000;
+  var updateInterval = 5000;
   $("#updateInterval")
     .val(updateInterval)
     .change(function () {

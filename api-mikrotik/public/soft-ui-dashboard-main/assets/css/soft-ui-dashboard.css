@@ -21462,8 +21462,20 @@ fieldset:disabled .btn {
   border-bottom-left-radius: 0.75rem;
 }
 
+.obliquebalik {
+  transform: skewX(10deg);
+  overflow: hidden;
+  width: 60%;
+  left: -6rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
 .oblique .oblique-image {
   transform: skewX(10deg);
+}
+
+.obliquebalik .obliquebalik-imagebalik {
+  transform: skewX(0deg);
 }
 
 .fixed-plugin .fixed-plugin-button {

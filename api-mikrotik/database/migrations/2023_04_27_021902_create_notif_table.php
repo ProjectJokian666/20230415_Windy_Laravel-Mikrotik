@@ -13,12 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notif', function (Blueprint $table) {
+        Schema::create('notif_wa', function (Blueprint $table) {
             $table->id();
             $table->integer('id_adm');
-            $table->string('wa')->nullable();
-            $table->string('telegram')->nullable();
-            $table->string('email')->nullable();
+            $table->string('no_wa');
+            $table->string('no_twilio');
+            $table->string('account_sid');
+            $table->string('auth_token');
+            $table->integer('jam')->default('0');
+            $table->integer('menit')->default('0');
+            $table->integer('detik')->default('0');
             $table->timestamps();
         });
     }
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notif');
+        Schema::dropIfExists('notif_wa');
     }
 };

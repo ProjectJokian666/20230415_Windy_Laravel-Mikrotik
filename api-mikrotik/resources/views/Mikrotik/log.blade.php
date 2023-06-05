@@ -18,7 +18,7 @@
 		<div class="col-4">
 			<div class="card">
 				<div class="input-group">
-					<input type="text" class="form-control mytimepicker" placeholder="H:mm:ss" id="time1">
+					<input type="text" class="form-control mytimepicker1" placeholder="H:mm:ss" id="time1">
 					<div class="input-group-append">
 						<span class="input-group-text h-100"><i class="mdi mdi-calendar"></i></span>
 					</div>
@@ -28,7 +28,7 @@
 		<div class="col-4">
 			<div class="card">
 				<div class="input-group">
-					<input type="text" class="form-control mytimepicker" placeholder="H:mm:ss" id="time2">
+					<input type="text" class="form-control mytimepicker2" placeholder="H:mm:ss" id="time2">
 					<div class="input-group-append">
 						<span class="input-group-text h-100"><i class="mdi mdi-calendar"></i></span>
 					</div>
@@ -85,26 +85,44 @@
 <script src="{{asset('matrix-admin-bt5-master')}}/dist/js/jquery.timepicker.min.js"></script>
 <script src="{{asset('matrix-admin-bt5-master')}}/assets/extra-libs/DataTables/datatables.min.js"></script>
 <script type="text/javascript">
-	$(".mytimepicker").timepicker({
-				timeFormat: 'HH:mm:ss',
-				interval: 60,
-				minTime: '01',
-				maxHour: '24',
-				defaultTime: '1',
-				startTime: '10:00',
-				dynamic: false,
-				dropdown: true,
-				scrollbar: true
+	$(".mytimepicker1").timepicker({
+		timeFormat: 'HH:mm:ss',
+		interval: 60,
+		minTime: '00',
+		maxHour: '24',
+		defaultTime: '01',
+		startTime: '01:00',
+		dynamic: false,
+		dropdown: true,
+		scrollbar: true
+		// change:function(time){
+			// var timepicker = element.timepicker({	
+			// })
+		// }
+	});
+	$(".mytimepicker2").timepicker({
+		timeFormat: 'HH:mm:ss',
+		interval: 60,
+		minTime: '00',
+		maxHour: '24',
+		defaultTime: '23',
+		startTime: '10:00',
+		dynamic: false,
+		dropdown: true,
+		scrollbar: true
 		// change:function(time){
 			// var timepicker = element.timepicker({	
 			// })
 		// }
 	});
 	$('#cek_log').on('click',function(){
+		// console.log('a');
 		console.log('okk',$('#time1').val(),$('#time2').val())
+		show_data_log();
 	});
 	show_data_log();
 	function show_data_log(){
+		$("#dataTable").DataTable().destroy();
 		$("#dataTable").DataTable({
 			"paging": true,
 			"lengthChange": true,
@@ -116,6 +134,10 @@
 			ajax:{
 				url:"{{route('get_log')}}",
 				type:"get",
+				data:{
+					time1:$('#time1').val(),
+					time2:$('#time2').val(),
+				},
 				contentType: 'application/json',
 			},
 			columns:[

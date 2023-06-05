@@ -7,28 +7,88 @@
 	<div class="page-header min-vh-75">
 		<div class="container">
 			<div class="row">
-				<div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-					<div class="card card-plain mt-6">
-						
-						@if(session('sukses'))
-						<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
-							<span class="alert-text"><strong>Success! </strong>{{session('sukses')}}</span>
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						@endif
-						<div class="card-header pb-0 text-left bg-transparent">
-							<h3 class="font-weight-bolder text-info text-gradient">Selamat Datang di Monitoring Jaringan Puskom Polinema</h3>
-							<p class="mb-0"></p>
-						</div>
+
+				@if(session('sukses'))
+				<div class="col-xl-12 d-flex flex-column mx-auto">
+					<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+						<span class="alert-text"><strong>Success! </strong>{{session('sukses')}}</span>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-						<div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url({{asset('soft-ui-dashboard-main')}}/assets/img/curved-images/curved6.jpg)"></div>
+				@endif
+				
+				<a href="{{url('choice/login_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<div class="numbers">
+										<p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
+										<h5 class="font-weight-bolder mb-0">
+											LOGIN AKUN MIKROTIK
+											<span class="text-success text-sm font-weight-bolder">
+											</span>
+										</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+										<i class="fas fa-sign-in-alt text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				</div>
+				</a>
+
+				<a href="{{url('choice/list_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<div class="numbers">
+										<p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
+										<h5 class="font-weight-bolder mb-0">
+											LIST AKUN MIKROTIK
+											<span class="text-success text-sm font-weight-bolder"></span>
+										</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+										<i class="fas fa-file-alt text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+
+				<a href="{{url('choice/notif_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<div class="numbers">
+										<p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
+										<h5 class="font-weight-bolder mb-0">
+											NOTIFIKASI AKUN
+											<span class="text-danger text-sm font-weight-bolder"></span>
+										</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+										<i class="fab fa-whatsapp text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				
 			</div>
 		</div>
 	</div>
@@ -37,6 +97,6 @@
 
 @push('jss')
 <script type="text/javascript">
-  $(".alert-dismissible").fadeIn().delay(3000).fadeOut();
+	$(".alert-dismissible").fadeIn().delay(3000).fadeOut();
 </script>
 @endpush

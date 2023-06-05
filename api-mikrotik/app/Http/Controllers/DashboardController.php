@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RouterOsApi;
 use App\Models\RouterOsApi2;
+use Illuminate\Support\Collection;
 
 class DashboardController extends Controller
 {   
@@ -123,7 +124,6 @@ class DashboardController extends Controller
             // }
         }
 
-        // dd($hasil_log);
 
         $limit = is_null($request["length"]) ? 10 : $request["length"];
         $offset = is_null($request["start"]) ? 0 : $request["start"];
@@ -132,6 +132,9 @@ class DashboardController extends Controller
         // dd($request->search);
 
         $search = is_null($request->search) ? '' : $request->search['value'];
+        $hasil_log=collect($hasil_log);
+        $time1 = is_null(request()->time1) ? '00:00:00' : request()->time1;
+        $time2 = is_null(request()->time2) ? '23:59:59' : request()->time2;
 
         // if (!empty($search)) {
         //     $data_log = $data_log
@@ -139,7 +142,8 @@ class DashboardController extends Controller
         //     orWhere('topic','LIKE','%'.$search.'%')
         //     orWhere('message','LIKE','%'.$search.'%');
         // }
-
+        $hasil_log=$hasil_log->where('time','>',$time1)->where('time','<',$time2);
+        // dd($time1,$time2,$hasil_log);
         $get_count = count($hasil_log);
         // dd($get_count);
         // $data_log = $data_log

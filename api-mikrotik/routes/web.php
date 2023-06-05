@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthenController as Authen;
+use App\Http\Controllers\NotifWaController as NotifWa;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\RealtimeController as Realtime;
+use App\Http\Controllers\NotifController as Notif;
 
 
 Route::middleware('guest')->group(function(){
@@ -36,9 +38,18 @@ Route::middleware('auth')->group(function(){
         Route::get('list_akun/{id}/delete',[Authen::class,'delete_akun_id'])->name('.delete_akun_id'); 
 
         //menampilkan form untuk notif kedalam sistem mikrotik
+        // Route::get('notif_wa',[Notif::class,'notif_wa'])->name('.notif_wa');
         Route::get('notif_akun',[Authen::class,'notif_akun'])->name('.notif_akun'); 
-        Route::get('cek_notif',[Authen::class,'cek_notif'])->name('.cek_notif'); 
-        Route::post('simpan_notif_akun',[Authen::class,'simpan_notif_akun'])->name('.simpan_notif_akun'); 
+        // Route::get('cek_notif',[Authen::class,'cek_notif'])->name('.cek_notif'); 
+        // Route::post('simpan_notif_akun',[Authen::class,'simpan_notif_akun'])->name('.simpan_notif_akun');
+
+        Route::prefix('notif_akun')->name('notif_akun')->group(function(){
+            Route::post('',[Authen::class,'notif_akun']);
+            
+            Route::prefix('notif_wa')->name('notif_wa')->group(function(){
+                Route::post('',[NotifWa::class,'notif_wa'])->name('.notif_wa');
+            });
+        });
 
         Route::get('logout',[Authen::class,'logout_akun'])->name('.logout'); 
     });

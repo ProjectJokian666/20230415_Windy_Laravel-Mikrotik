@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Login;
-use App\Models\Notif;
+use App\Models\NotifWa;
 
 use App\Models\RouterOsApi;
 use Twilio\Rest\Client;
@@ -82,7 +82,7 @@ class AuthenController extends Controller
         // dd($request);
         if (Auth::attempt(['email'=>$request->username,'password'=>$request->password])) {
             $request->session()->regenerate();
-            return redirect()->intended('choice')->with('sukses','Silahkan Memilih Menu yang ada di atas')
+            return redirect()->intended('choice')->with('sukses','Silahkan Memilih Menu')
             ->cookie('email',$request->username,1000000,'/')
             ->cookie('password',$request->password,1000000,'/')
             ->cookie('status_login','true',1000000,'/')
@@ -285,7 +285,7 @@ class AuthenController extends Controller
         //     ]);
         // }
         $data = [
-            'notif' => Notif::find(1),
+            'notifwa' => NotifWa::where('id_adm','=',Auth()->user()->id)->get(),
         ];
         // dd($data);
         return view('Auth.notif_akun',compact('data'));
@@ -321,8 +321,8 @@ class AuthenController extends Controller
     {
         // dd(request()->wa,request()->tele,request()->email);
         $twilio_whatsapp_number = "+14155238886";
-        $account_sid = "AC8c5b7f764b82196d0916e8e42cd070e7";
-        $auth_token = "700992db4bbd1bcb6f06e79c95a733bc";
+        $account_sid = "";
+        $auth_token = "";
 
         $client = new Client($account_sid, $auth_token);
         $message = "Coba Test Pesan Twilio";

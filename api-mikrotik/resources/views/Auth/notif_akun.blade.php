@@ -34,42 +34,9 @@
 						</div>
 						@endif
 					</div>
-					<form action="{{url('choice/notif_akun/notif_wa')}}" method="POST">
-						@csrf
-						<div class="card-body">
-							<label>No. Whatsapp</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="+628" aria-label="No Wa" name="no_wa">
-							</div>
-							<label>No. Twilio</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="Wa Twilio" aria-label="No Wa" name="no_twilio">
-							</div>
-							<label>Account SID</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="SID" aria-label="No Wa" name="account_sid">
-							</div>
-							<label>Auth Token</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No Wa" name="auth_token">
-							</div>
-							<label>Jam</label>
-							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="JAM" aria-label="No Wa" name="jam" value="1">
-							</div>
-							<label>Menit</label>
-							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="MENIT" aria-label="No Wa" name="menit" value="00">
-							</div>
-							<label>Detik</label>
-							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="DETIK" aria-label="No Wa" name="detik" value="00">
-							</div>
-							<div class="text-center">
-								<button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">TAMBAH</button>
-							</div>
-						</div>
-					</form>
+					<div class="card-body px-0 pt-0 pb-2">
+						<a href="{{url('choice/notif_akun/add_wa')}}" class="btn bg-gradient-info mt-4 mb-0">TAMBAH NOTIF WA</a>
+					</div>
 					<div class="card-body px-0 pt-0 pb-2">
 						<div class="table-responsive p-0">
 
@@ -104,6 +71,43 @@
 
 						</div>
 					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<a href="{{url('choice/notif_akun/add_sms')}}" class="btn bg-gradient-info mt-4 mb-0">TAMBAH NOTIF SMS</a>
+					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<div class="table-responsive p-0">
+
+							<table class="table text-center align-items-center justify-content-center mb-0"  id="example2">
+								<thead>
+									<tr>
+										<th class="text-center">NO</th>
+										<th class="text-center">WHATSAPP</th>
+										<th class="text-center">NUMBER TWILIO</th>
+										<th class="text-center">ACCOUNT SID</th>
+										<th class="text-center">AUTH TOKEN</th>
+										<th class="text-center">JAM</th>
+										<th class="text-center">MENIT</th>
+										<th class="text-center">DETIK</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($data['notifsms'] as $key => $value)
+									<tr>
+										<td>{{$loop->iteration}}</td>
+										<td>{{$value['no_sms']}}</td>
+										<td>{{$value['no_twilio']}}</td>
+										<td>{{substr($value['account_sid'],0,10)}}</td>
+										<td>{{substr($value['auth_token'],0,10)}}</td>
+										<td>{{$value['jam']}}</td>
+										<td>{{$value['menit']}}</td>
+										<td>{{$value['detik']}}</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -120,6 +124,17 @@
 
 	$(function () {
 		$("#example1").DataTable({
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": false,
+			"autoWidth": false,
+			"responsive": true,
+		});
+	});
+	$(function () {
+		$("#example2").DataTable({
 			"paging": true,
 			"lengthChange": true,
 			"searching": true,

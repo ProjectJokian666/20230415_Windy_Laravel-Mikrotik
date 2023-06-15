@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('notif_wa', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_adm');
             $table->string('no_wa');
             $table->string('no_twilio');
             $table->string('account_sid');

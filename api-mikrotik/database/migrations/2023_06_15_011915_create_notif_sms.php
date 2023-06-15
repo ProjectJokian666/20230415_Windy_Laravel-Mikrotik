@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('login', function (Blueprint $table) {
+        Schema::create('notif_sms', function (Blueprint $table) {
             $table->id();
-            $table->string('ip');
-            $table->string('username');
-            $table->string('password');
+            $table->string('no_sms');
+            $table->string('no_twilio');
+            $table->string('account_sid');
+            $table->string('auth_token');
+            $table->integer('jam')->default('0');
+            $table->integer('menit')->default('0');
+            $table->integer('detik')->default('0');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('login');
+        Schema::dropIfExists('notif_sms');
     }
 };

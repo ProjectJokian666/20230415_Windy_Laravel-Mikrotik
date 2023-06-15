@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthenController as Authen;
 use App\Http\Controllers\NotifWaController as NotifWa;
+use App\Http\Controllers\NotifSmsController as NotifSms;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\RealtimeController as Realtime;
 use App\Http\Controllers\NotifController as Notif;
@@ -45,9 +46,15 @@ Route::middleware('auth')->group(function(){
 
         Route::prefix('notif_akun')->name('notif_akun')->group(function(){
             Route::post('',[Authen::class,'notif_akun']);
+
+            Route::get('add_wa',[NotifWa::class,'add_wa'])->name('.add_wa');
+            Route::get('add_sms',[NotifSms::class,'add_sms'])->name('.add_sms');
             
             Route::prefix('notif_wa')->name('notif_wa')->group(function(){
                 Route::post('',[NotifWa::class,'notif_wa'])->name('.notif_wa');
+            });
+            Route::prefix('notif_sms')->name('notif_sms')->group(function(){
+                Route::post('',[NotifSms::class,'notif_sms'])->name('.notif_sms');
             });
         });
 

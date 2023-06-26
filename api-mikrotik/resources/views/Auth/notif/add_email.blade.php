@@ -1,6 +1,6 @@
 @extends('Layouts.auth')
 
-@section('title','Add Notif Wa')
+@section('title','Add Notif Email')
 
 @push('csss')
 @endpush
@@ -32,33 +32,21 @@
 						</div>
 						@endif
 					</div>
-					<form action="{{url('choice/notif_akun/notif_wa')}}" method="POST">
+					<form action="{{url('choice/notif_akun/notif_email')}}" method="POST">
 						@csrf
 						<div class="card-body">
-							<label>No. Whatsapp</label>
+							<label>Akun Email</label>
 							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="+628" aria-label="No Wa" name="no_wa">
-							</div>
-							<label>No. Twilio</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="Wa Twilio" aria-label="No Wa" name="no_twilio">
-							</div>
-							<label>Account SID</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="SID" aria-label="No Wa" name="account_sid">
-							</div>
-							<label>Auth Token</label>
-							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No Wa" name="auth_token">
+								<input type="text" class="form-control" placeholder="Akun Email" aria-label="Akun Email" name="akun_email">
 							</div>
 							<p class="text-sm mt-3 mb-0">PERIODIK DALAM PENGIRIMAN DATA MONITORING</p>
 							<label>Jam</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="JAM" aria-label="No Wa" name="jam" value="1">
+								<input type="number" class="form-control" placeholder="JAM" aria-label="No sms" name="jam" value="1">
 							</div>
 							<label>Menit</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="MENIT" aria-label="No Wa" name="menit" value="00">
+								<input type="number" class="form-control" placeholder="MENIT" aria-label="No sms" name="menit" value="00">
 							</div>
 							<div class="text-center justify-content-between">
 								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>

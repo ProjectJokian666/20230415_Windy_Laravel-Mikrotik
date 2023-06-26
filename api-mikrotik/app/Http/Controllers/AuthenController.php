@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Login;
 use App\Models\NotifWa;
 use App\Models\NotifSms;
+use App\Models\NotifEmail;
 
 use App\Models\RouterOsApi;
 use Twilio\Rest\Client;
@@ -288,6 +289,7 @@ class AuthenController extends Controller
         $data = [
             'notifwa' => NotifWa::where('id_adm','=',Auth()->user()->id)->get(),
             'notifsms' => NotifSms::where('id_adm','=',Auth()->user()->id)->get(),
+            'notifemail' => NotifEmail::where('id_adm','=',Auth()->user()->id)->get(),
         ];
         // dd($data);
         return view('Auth.notif_akun',compact('data'));

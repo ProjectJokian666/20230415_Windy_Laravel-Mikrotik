@@ -18,6 +18,5 @@ class NotifWa extends Model
         'auth_token',
         'jam',
         'menit',
-        'detik',
     ];
 }

@@ -1,6 +1,6 @@
 @extends('Layouts.auth')
 
-@section('title','Add Notif Wa')
+@section('title','Edit Notif Sms')
 
 @push('csss')
 @endpush
@@ -32,36 +32,37 @@
 						</div>
 						@endif
 					</div>
-					<form action="{{url('choice/notif_akun/notif_wa')}}" method="POST">
+					<form action="{{url('choice/notif_akun/notif_sms/'.$data['data']->id.'/sms/edit')}}" method="POST">
 						@csrf
+						@method('patch')
 						<div class="card-body">
-							<label>No. Whatsapp</label>
+							<label>No. Sms</label>
 							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="+628" aria-label="No Wa" name="no_wa">
+								<input type="text" class="form-control" placeholder="+628" aria-label="No sms" name="no_sms" value="{{$data['data']->no_sms}}">
 							</div>
 							<label>No. Twilio</label>
 							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="Wa Twilio" aria-label="No Wa" name="no_twilio">
+								<input type="text" class="form-control" placeholder="sms Twilio" aria-label="No sms" name="no_twilio" value="{{$data['data']->no_twilio}}">
 							</div>
 							<label>Account SID</label>
 							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="SID" aria-label="No Wa" name="account_sid">
+								<input type="text" class="form-control" placeholder="SID" aria-label="No sms" name="account_sid" value="{{$data['data']->account_sid}}">
 							</div>
 							<label>Auth Token</label>
 							<div class="mb-3">
-								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No Wa" name="auth_token">
+								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No sms" name="auth_token" value="{{$data['data']->auth_token}}">
 							</div>
 							<p class="text-sm mt-3 mb-0">PERIODIK DALAM PENGIRIMAN DATA MONITORING</p>
 							<label>Jam</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="JAM" aria-label="No Wa" name="jam" value="1">
+								<input type="number" class="form-control" placeholder="JAM" aria-label="No sms" name="jam" value="{{$data['data']->jam}}">
 							</div>
 							<label>Menit</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="MENIT" aria-label="No Wa" name="menit" value="00">
+								<input type="number" class="form-control" placeholder="MENIT" aria-label="No sms" name="menit" value="{{$data['data']->menit}}">
 							</div>
 							<div class="text-center justify-content-between">
-								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>
+								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">UBAH</button>
 								<a href="{{url('choice/notif_akun')}}" class="btn bg-gradient-info w-25 mt-4 mb-0">BATAL</a>
 							</div>
 						</div>

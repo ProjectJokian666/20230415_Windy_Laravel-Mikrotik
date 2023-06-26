@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notif_wa', function (Blueprint $table) {
+        Schema::create('notif_email', function (Blueprint $table) {
             $table->id();
-            $table->string('no_wa');
-            $table->string('no_twilio');
-            $table->string('account_sid');
-            $table->string('auth_token');
+            $table->unsignedBigInteger('id_adm');
+            $table->string('akun_email');
             $table->integer('jam')->default('0');
             $table->integer('menit')->default('0');
             $table->timestamps();
+
+            $table->foreign('id_adm')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notif_wa');
+        Schema::dropIfExists('notif_email');
     }
 };

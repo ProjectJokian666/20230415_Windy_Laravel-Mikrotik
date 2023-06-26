@@ -51,6 +51,7 @@
 							<div class="mb-3">
 								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No sms" name="auth_token">
 							</div>
+							<p class="text-sm mt-3 mb-0">PERIODIK DALAM PENGIRIMAN DATA MONITORING</p>
 							<label>Jam</label>
 							<div class="mb-3">
 								<input type="number" class="form-control" placeholder="JAM" aria-label="No sms" name="jam" value="1">
@@ -58,10 +59,6 @@
 							<label>Menit</label>
 							<div class="mb-3">
 								<input type="number" class="form-control" placeholder="MENIT" aria-label="No sms" name="menit" value="00">
-							</div>
-							<label>Detik</label>
-							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="DETIK" aria-label="No sms" name="detik" value="00">
 							</div>
 							<div class="text-center justify-content-between">
 								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>

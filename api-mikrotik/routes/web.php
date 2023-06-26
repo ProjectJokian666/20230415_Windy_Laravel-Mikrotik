@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenController as Authen;
 use App\Http\Controllers\NotifWaController as NotifWa;
 use App\Http\Controllers\NotifSmsController as NotifSms;
+use App\Http\Controllers\NotifEmailController as NotifEmail;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\RealtimeController as Realtime;
 use App\Http\Controllers\NotifController as Notif;
@@ -47,14 +48,28 @@ Route::middleware('auth')->group(function(){
         Route::prefix('notif_akun')->name('notif_akun')->group(function(){
             Route::post('',[Authen::class,'notif_akun']);
 
-            Route::get('add_wa',[NotifWa::class,'add_wa'])->name('.add_wa');
-            Route::get('add_sms',[NotifSms::class,'add_sms'])->name('.add_sms');
             
             Route::prefix('notif_wa')->name('notif_wa')->group(function(){
+                Route::get('add_wa',[NotifWa::class,'add_wa'])->name('.add_wa');
                 Route::post('',[NotifWa::class,'notif_wa'])->name('.notif_wa');
+                Route::get('{id}/wa/edit',[NotifWa::class,'edit_wa'])->name('.edit_wa');
+                Route::patch('{id}/wa/edit',[NotifWa::class,'patch_wa'])->name('.patch_wa');
+                Route::delete('{id}/wa/hapus',[NotifWa::class,'delete_wa'])->name('.delete_wa');
             });
             Route::prefix('notif_sms')->name('notif_sms')->group(function(){
+                Route::get('add_sms',[NotifSms::class,'add_sms'])->name('.add_sms');
                 Route::post('',[NotifSms::class,'notif_sms'])->name('.notif_sms');
+                Route::get('{id}/sms/edit',[NotifSms::class,'edit_sms'])->name('.edit_sms');
+                Route::patch('{id}/sms/edit',[NotifSms::class,'patch_sms'])->name('.patch_sms');
+                Route::delete('{id}/sms/hapus',[NotifSms::class,'delete_sms'])->name('.delete_sms');
+            });
+            Route::prefix('notif_email')->name('notif_email')->group(function(){
+                Route::get('add_email',[NotifEmail::class,'add_email'])->name('.add_email');
+                Route::post('',[NotifEmail::class,'notif_email'])->name('.notif_email');
+                Route::get('{id}/email/edit',[NotifEmail::class,'edit_email'])->name('.edit_email');
+                Route::patch('{id}/email/edit',[NotifEmail::class,'patch_email'])->name('.patch_email');
+                Route::delete('{id}/email/hapus',[NotifEmail::class,'delete_email'])->name('.delete_email');
+                Route::get('test_email',[NotifEmail::class,'test_email'])->name('.test_email');
             });
         });
 

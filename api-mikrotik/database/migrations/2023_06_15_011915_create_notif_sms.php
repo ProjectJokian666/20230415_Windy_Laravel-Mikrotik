@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('auth_token');
             $table->integer('jam')->default('0');
             $table->integer('menit')->default('0');
-            $table->integer('detik')->default('0');
             $table->timestamps();
         });
     }

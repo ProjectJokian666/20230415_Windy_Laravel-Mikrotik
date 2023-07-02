@@ -69,7 +69,8 @@
 												@method('delete')
 												<a href="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/edit')}}" class="btn bg-gradient-info mt-4 mb-0">EDIT</a>
 												<button type="submit" class="btn bg-gradient-info mt-4 mb-0">HAPUS</button>
-												<a href="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a>
+												<button type="button"	class="btn bg-gradient-info mt-4 mb-0" onclick="test_notif_wa(<?= $value->id ?>)">TEST</button>
+												<!-- <a href="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a> -->
 											</form>
 										</td>
 									</tr>
@@ -114,7 +115,8 @@
 												@method('delete')
 												<a href="{{url('choice/notif_akun/notif_sms/'.$value->id.'/sms/edit')}}" class="btn bg-gradient-info mt-4 mb-0">EDIT</a>
 												<button type="submit" class="btn bg-gradient-info mt-4 mb-0">HAPUS</button>
-												<a href="{{url('choice/notif_akun/notif_sms/'.$value->id.'/sms/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a>
+												<button type="button"	class="btn bg-gradient-info mt-4 mb-0" onclick="test_notif_sms(<?= $value->id ?>)">TEST</button>
+												<!-- <a href="{{url('choice/notif_akun/notif_sms/'.$value->id.'/sms/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a> -->
 											</form>
 										</td>
 									</tr>
@@ -130,7 +132,7 @@
 					<div class="card-body px-0 pt-0 pb-2">
 						<div class="table-responsive p-0">
 
-							<table class="table text-center align-items-center justify-content-center mb-0"  id="example2">
+							<table class="table text-center align-items-center justify-content-center mb-0"  id="example3">
 								<thead>
 									<tr>
 										<th class="text-center">NO</th>
@@ -153,7 +155,8 @@
 												@method('delete')
 												<a href="{{url('choice/notif_akun/notif_email/'.$value->id.'/email/edit')}}" class="btn bg-gradient-info mt-4 mb-0">EDIT</a>
 												<button type="submit" class="btn bg-gradient-info mt-4 mb-0">HAPUS</button>
-												<a href="{{url('choice/notif_akun/notif_email/'.$value->id.'/email/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a>
+												<button type="button" class="btn bg-gradient-info mt-4 mb-0" onclick="test_notif_email(<?= $value->id ?>)">TEST</button>
+												<!-- <a href="{{url('choice/notif_akun/notif_email/'.$value->id.'/email/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a> -->
 											</form>
 										</td>
 									</tr>
@@ -176,7 +179,6 @@
 <script src="{{asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script type="text/javascript">
 	$(".alert-dismissible").fadeIn().delay(3000).fadeOut();
-
 	$(function () {
 		$("#example1").DataTable({
 			"paging": true,
@@ -199,5 +201,61 @@
 			"responsive": true,
 		});
 	});
+	$(function () {
+		$("#example3").DataTable({
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": false,
+			"autoWidth": false,
+			"responsive": true,
+		});
+	});
+	function test_notif_wa(id){
+		console.log(id);
+		$.ajax({
+			url:"{{route('choice.notif_akun.notif_wa.test_sinyal')}}",
+			data:{
+				data:id
+			},
+			success:function(data){
+					console.log(data)
+			},
+			error:function(data){
+					console.log(data)
+			}
+		});
+	}
+	function test_notif_sms(id){
+		console.log(id);
+		$.ajax({
+			url:"{{route('choice.notif_akun.notif_sms.test_sinyal')}}",
+			data:{
+				data:id
+			},
+			success:function(data){
+					console.log(data)
+			},
+			error:function(data){
+					console.log(data)
+			}
+		});
+	}
+	function test_notif_email(id){
+		console.log(id);
+		$.ajax({
+			url:"{{route('choice.notif_akun.notif_email.test_sinyal')}}",
+			data:{
+				data:id
+			},
+			success:function(data){
+					console.log(data)
+			},
+			error:function(data){
+					console.log(data)
+			}
+		});
+	}
 </script>
 @endpush

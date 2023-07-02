@@ -15,5 +15,6 @@ class NotifEmail extends Model
         'akun_email',
         'jam',
         'menit',
+        'time_lock',
     ];
 }

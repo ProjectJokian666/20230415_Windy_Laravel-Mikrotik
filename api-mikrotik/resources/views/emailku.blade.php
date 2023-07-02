@@ -1,8 +1,8 @@
 @component('mail::message')
 # {{ $data['title'] }}
 
-Saya sedang belajar mengirim email dengan Laravel.
+Test apakah akun benar benar terdaftar.
 
-Terimakasi
+Framework
 {{ config('app.name') }}
 @endcomponent

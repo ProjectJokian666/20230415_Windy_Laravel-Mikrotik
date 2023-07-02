@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendMail extends Mailable
+class SendMailNotif extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,7 +31,7 @@ class SendMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Test Sinyal',
+            subject: 'Send Mail Notif',
         );
     }
 
@@ -43,7 +43,7 @@ class SendMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emailku',
+            view: 'view.name',
         );
     }
 
@@ -56,11 +56,10 @@ class SendMail extends Mailable
     {
         return [];
     }
-
     public function build()
     {
-        return $this->markdown('emailku')
-        ->subject('Pemberitahuan Penting!')
+        return $this->markdown('Notif.notif_email')
+        ->subject('Data Periodik')
         ->with('data', $this->data)
         ;
     }

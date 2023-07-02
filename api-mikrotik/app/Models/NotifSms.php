@@ -18,5 +18,6 @@ class NotifSms extends Model
         'auth_token',
         'jam',
         'menit',
+        'time_lock',
     ];
 }

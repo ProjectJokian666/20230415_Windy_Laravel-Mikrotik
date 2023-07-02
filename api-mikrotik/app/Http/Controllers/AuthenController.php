@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 use App\Models\User;
 use App\Models\Login;
@@ -16,6 +17,8 @@ use App\Models\NotifEmail;
 
 use App\Models\RouterOsApi;
 use Twilio\Rest\Client;
+
+use App\Mail\SendMailNotif;
 
 class AuthenController extends Controller
 {   
@@ -185,6 +188,9 @@ class AuthenController extends Controller
         // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-17.hostddns.us:10269","windy","admin1"));
         if ($API->connect($data_login->ip, $data_login->username, $data_login->password)) {
             request()->session()->put($data);
+            $this->kirim_notif_login();
+            $this->kirim_notif_login_wa();
+            $this->kirim_notif_login_sms();
             return redirect('/');
         }
         else{
@@ -192,6 +198,99 @@ class AuthenController extends Controller
             return redirect()->route('choice.list_akun');
         }
     }
+
+    public function kirim_notif_login()
+    {
+        // dd($data);
+        $email_akun = NotifEmail::where('id_adm',Auth()->user()->id)->get();
+        foreach ($email_akun as $key => $value) {
+
+            // $data_dikirim = [
+            //     'title'=>'Laporan Login',
+            //     'ip'=>$data['ip'],
+            //     'user'=>$data['user'],
+            //     'password'=>$data['password'],
+            // ];
+
+            $update_data = NotifEmail::where('id',$value->id)->
+            update([
+                'time_lock'=>DATE('Y-m-d H:i'),
+            ]);
+
+            // Mail::to($value->akun_email)->send(new SendMailNotif($data_dikirim));
+
+        }
+    }
+    public function kirim_notif_login_wa()
+    {
+        $wa_akun = NotifWa::where('id_adm',Auth()->user()->id)->get();
+        foreach ($wa_akun as $key => $value) {
+
+            $update_data = NotifWa::where('id',$value->id)->
+            update([
+                'time_lock'=>DATE('Y-m-d H:i'),
+            ]);
+
+            // $data_wa = NotifWa::find($value->id);
+            // $no_twillio = $data_wa->no_twilio;
+            // $acc = $data_wa->account_sid;
+            // $token = $data_wa->auth_token;
+
+            // $kirim_notif = new Client($acc,$token);
+            // $pesan = "
+            // Laporan Login
+            // Ip : ".$data["ip"]."
+            // User: ".$data["user"]."
+            // Password : ".$data["password"];
+            // // dd($kirim_notif,$kirim_notif->messages);
+            // $no_wa = $data_wa->no_wa;
+
+            // $status = $kirim_notif->messages->create(
+            //     "whatsapp:$no_wa",
+            //     array(
+            //         'from'=> "whatsapp:$no_twillio",
+            //         'body'=>$pesan
+            //     )
+            // );
+
+            // dd($status,$kirim_notif);
+        }
+    }
+    public function kirim_notif_login_sms()
+    {
+        $sms_akun = NotifSms::where('id_adm',Auth()->user()->id)->get();
+        foreach ($sms_akun as $key => $value) {
+
+            $update_data = NotifSms::where('id',$value->id)->
+            update([
+                'time_lock'=>DATE('Y-m-d H:i'),
+            ]);
+
+            // $data_sms = NotifSms::find($value->id);
+            // $no_twillio = $data_sms->no_twilio;
+            // $acc = $data_sms->account_sid;
+            // $token = $data_sms->auth_token;
+
+            // $kirim_notif = new Client($acc,$token);
+            // $pesan = "
+            // Laporan Login
+            // Ip : ".$data["ip"]."
+            // User: ".$data["user"]."
+            // Password : ".$data["password"];
+
+            // $no_sms = $data_sms->no_sms;
+
+            // $status = $kirim_notif->messages->create(
+            //     "$no_sms",
+            //     array(
+            //         'from'=>"$no_twillio",
+            //         'body'=>$pesan
+            //     )
+            // );
+
+        }
+    }
+
     public function delete_akun_id($id)
     {
         $data_login = Login::find($id)->delete();

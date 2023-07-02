@@ -80,72 +80,55 @@
 @push('jss')
 <script type="text/javascript">
 	setInterval(()=>{
-		uptime();
-		free_memory();
-		total_memory();
-		cpu();
-		cpu_count();
-		cpu_frequency();
-		cpu_load();
-		free_hdd();
-		total_hdd();
-		since_reboot();
-		total();
-		architecture();
-		board();
-		version();
-		build_time();
-		factory_software();
+		// uptime();
+		// free_memory();
+		// total_memory();
+		// cpu();
+		// cpu_count();
+		// cpu_frequency();
+		// cpu_load();
+		// free_hdd();
+		// total_hdd();
+		// since_reboot();
+		// total();
+		// architecture();
+		// board();
+		// version();
+		// build_time();
+		// factory_software();
+		resources()
 	},5000);
 
-	function uptime() {
-		$('#show_data_uptime').load('{{route('realtime.uptime')}}');
+	function resources(){
+		// console.log('aa');
+		$.ajax({
+			url:'{{route('realtime.resources')}}',
+			success:function(data){
+				$('#show_data_uptime').html(data.uptime)
+				$('#show_data_free_memory').html(data.free_memory)
+				$('#show_data_total_memory').html(data.total_memory)
+				$('#show_data_cpu').html(data.cpu)
+				$('#show_data_cpu_count').html(data.cpu_count)
+				$('#show_data_cpu_frequency').html(data.cpu_frequency)
+				$('#show_data_cpu_load').html(data.cpu_load)
+				$('#show_data_free_hdd').html(data.free_hdd)
+				$('#show_data_total_hdd').html(data.total_hdd)
+				$('#show_data_since_reboot').html(data.since_reboot)
+				$('#show_data_total').html(data.total)
+				$('#show_data_architecture').html(data.architecture)
+				$('#show_data_board').html(data.board)
+				$('#show_data_version').html(data.version)
+				$('#show_data_build_time').html(data.build_time)
+				$('#show_data_factory_software').html(data.factory_software)
+				// console.log('aaa',data)
+				// if (data.status=='sukses') {
+					// load_grafk_tx(data)
+				// }
+			},
+			error:function(data){
+				console.log("error",data)
+			}
+		})
 	}
-	function free_memory() {
-		$('#show_data_free_memory').load('{{route('realtime.free_memory')}}');
-	}
-	function total_memory() {
-		$('#show_data_total_memory').load('{{route('realtime.total_memory')}}');
-	}
-	function cpu(){
-		$("#show_data_cpu").load('{{route('realtime.cpu')}}');
-	}
-	function cpu_count() {
-		$("#show_data_cpu_count").load('{{route('realtime.cpu_count')}}');
-	}
-	function cpu_frequency() {
-		$("#show_data_cpu_frequency").load('{{route('realtime.cpu_frequency')}}');
-	}
-	function cpu_load() {
-		$("#show_data_cpu_load").load('{{route('realtime.cpu_load')}}');
-	}
-	function free_hdd() {
-		$("#show_data_free_hdd").load('{{route('realtime.free_hdd')}}');
-	}
-	function total_hdd() {
-		$("#show_data_total_hdd").load('{{route('realtime.total_hdd')}}');
-	}
-	function since_reboot() {
-		$("#show_data_since_reboot").load('{{route('realtime.since_reboot')}}');
-	}
-	function total() {
-		$("#show_data_total").load('{{route('realtime.total_hdd')}}');
-	}
-	function architecture(){
-		$("#show_data_architecture").load('{{route('realtime.architecture')}}');
-	}
-	function board(){
-		$("#show_data_board").load('{{route('realtime.board')}}');
-	}
-	function version(){
-		$("#show_data_version").load('{{route('realtime.version')}}');
-	}
-	function build_time(){
-		$("#show_data_build_time").load('{{route('realtime.build_time')}}');
-	}
-	function factory_software(){
-		$("#show_data_factory_software").load('{{route('realtime.factory_software')}}');
-	}
-
 </script>
 @endpush

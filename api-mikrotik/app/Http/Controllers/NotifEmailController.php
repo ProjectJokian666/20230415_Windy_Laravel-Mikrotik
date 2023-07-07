@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\SendMail;
 use App\Mail\SendMailNotif;
 use App\Models\NotifEmail;
+use App\Models\RouterOsApi;
 
 class NotifEmailController extends Controller
 {
@@ -108,6 +109,7 @@ class NotifEmailController extends Controller
     }
     public function kirim_notif()
     {
+        // dd('"ggg');
         $time_lock = request()->time_lock;
         $time_server = DATE('Y-m-d H:i:',strtotime(request()->time_server)).'00';
         // $time_server = request()->time_server;
@@ -135,9 +137,10 @@ class NotifEmailController extends Controller
                 'ip'=>session()->get('ip'),
                 'user'=>session()->get('user'),
                 'password'=>session()->get('password'),
+                'data'=>$this->isi(),
             ];
 
-            // Mail::to($data_akun->akun_email)->send(new SendMailNotif($data_periodik));
+            Mail::to($data_akun->akun_email)->send(new SendMailNotif($data_periodik));
             return response()->json($data);
         }
         else{
@@ -146,5 +149,75 @@ class NotifEmailController extends Controller
             ];
             return response()->json($data);
         }
+    }
+    public function isi()
+    {
+        $uptime = 0;
+        $free_memory = 0;
+        $total_memory = 0;
+        $cpu = 0;
+        $cpu_count = 0;
+        $cpu_frequency = 0;
+        $cpu_load = 0;
+        $free_hdd = 0;
+        $total_hdd = 0;
+        $since_reboot = 0;
+        $total = 0;
+        $architecture = 0;
+        $board = 0;
+        $version = 0;
+        $build_time = 0;
+        $factory_software = 0;
+
+        if (session()->has('ip')!=null&&session()->has('user')!=null&&session()->has('password')!=null) {
+            $ip = session()->get('ip');
+            $user = session()->get('user');
+            $password = session()->get('password');
+
+            $API = new RouterOsApi();
+            $API->debug = false;
+
+            if ($API->connect($ip, $user, $password)) {
+                $data = $API->comm('/system/resource/print');
+
+                $uptime = $data[0]['uptime'];
+                $free_memory = $data[0]['free-memory'];
+                $total_memory = $data[0]['total-memory'];
+                $cpu = $data[0]['cpu'];
+                $cpu_count = $data[0]['cpu-count'];
+                $cpu_frequency = $data[0]['cpu-frequency'];
+                $cpu_load = $data[0]['cpu-load'];
+                $free_hdd = $data[0]['free-hdd-space'];
+                $total_hdd = $data[0]['total-hdd-space'];
+                $since_reboot = $data[0]['write-sect-since-reboot'];
+                $total = $data[0]['write-sect-total'];
+                $architecture = $data[0]['architecture-name'];
+                $board = $data[0]['board-name'];
+                $version = $data[0]['version'];
+                $build_time = $data[0]['build-time'];
+                $factory_software = $data[0]['factory-software'];
+            }
+        }
+        $data = [
+            'uptime'=>$uptime,
+            'free_memory'=>formatBytes($free_memory,2),
+            'total_memory'=>formatBytes($total_memory,2),
+            'cpu'=>$cpu,
+            'cpu_count'=>$cpu_count,
+            'cpu_frequency'=>$cpu_frequency,
+            'cpu_load'=>$cpu_load,
+            'free_hdd'=>formatBytes($free_hdd,2),
+            'total_hdd'=>formatBytes($total_hdd,2),
+            'since_reboot'=>$since_reboot,
+            'total'=>$total,
+            'architecture'=>$architecture,
+            'board'=>$board,
+            'version'=>$version,
+            'build_time'=>$build_time,
+            'factory_software'=>$factory_software,
+            'status'=>'sukses'
+        ];
+        return $data;
+        // dd($data);
     }
 }

@@ -264,7 +264,7 @@
 		elevationData_rx[elevationData_rx.length-1][1]=parseInt(data.rx)
 
 		// console.log(data,data.angka_rx,data.uptime)
-		console.log(data.uptime)
+		// console.log(data.uptime)
 
 		// data dashboard
 		$('#show_data_uptime').html(data.uptime)

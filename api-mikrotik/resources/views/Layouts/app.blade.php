@@ -75,38 +75,38 @@
     // setInterval(()=>{
     //   kirim_notif_sms_{{$value->id}}()
     // },60000);
-    function kirim_notif_sms_{{$value->id}}() {
-      var currentDate = new Date();
+    // function kirim_notif_sms_{{$value->id}}() {
+    //   var currentDate = new Date();
       // var currentDate = new Date();
       // console.log({{$value->id}},currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds());
-      $.ajax({
-        url:"{{route('choice.notif_akun.notif_sms.kirim_notif')}}",
-        data:{
-          id:{{$value->id}},
-          jam:{{$value->jam}},
-          menit:{{$value->menit}},
-          time_lock:'{{$value->time_lock}}',
-          time_server:currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds(),
-        },
-        success:function(data){
-          console.log(data)
-          if(data.status=='kirim'){
-            // console.log(data)  
-          }
-        },
-        error:function(data){
+      // $.ajax({
+      //   url:"{{route('choice.notif_akun.notif_sms.kirim_notif')}}",
+      //   data:{
+      //     id:{{$value->id}},
+      //     jam:{{$value->jam}},
+      //     menit:{{$value->menit}},
+      //     time_lock:'{{$value->time_lock}}',
+      //     time_server:currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds(),
+      //   },
+      //   success:function(data){
           // console.log(data)
-        }
-      });
-    }
+      //     if(data.status=='kirim'){
+      //       console.log(data)  
+      //     }
+      //   },
+      //   error:function(data){
+      //     console.log(data)
+      //   }
+      // });
+    // }
   </script>
   @endforeach
   @foreach(App\Models\NotifEmail::where('id_adm',Auth()->user()->id)->get() as $key => $value)
   <script>
     // console.log('{{$value->time_lock}}');
-    // setInterval(()=>{
-    //   kirim_notif_email_{{$value->id}}()
-    // },60000);
+    setInterval(()=>{
+      kirim_notif_email_{{$value->id}}()
+    },60000);
     function kirim_notif_email_{{$value->id}}() {
       var currentDate = new Date();
       // var currentDate = new Date();
@@ -122,11 +122,11 @@
         success:function(data){
           // console.log(data)
           if(data.status=='kirim'){
-            // console.log(data) 
+            console.log(data) 
           }
         },
         error:function(data){
-          // console.log(data)
+          console.log(data)
         }
       });
     }
@@ -137,31 +137,31 @@
     // setInterval(()=>{
     //   kirim_notif_wa_{{$value->id}}()
     // },60000);
-    function kirim_notif_wa_{{$value->id}}() {
-      var currentDate = new Date();
+    // function kirim_notif_wa_{{$value->id}}() {
+      // var currentDate = new Date();
       // var currentDate = new Date();
       // console.log({{$value->id}},currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds());
-      $.ajax({
-        url:"{{route('choice.notif_akun.notif_wa.kirim_notif')}}",
-        data:{
-          id:{{$value->id}},
-          jam:{{$value->jam}},
-          menit:{{$value->menit}},
-          time_lock:'{{$value->time_lock}}',
-          time_server:currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds(),
-        },
-        success:function(data){
+      // $.ajax({
+        // url:"{{route('choice.notif_akun.notif_wa.kirim_notif')}}",
+        // data:{
+        //   id:{{$value->id}},
+        //   jam:{{$value->jam}},
+        //   menit:{{$value->menit}},
+        //   time_lock:'{{$value->time_lock}}',
+        //   time_server:currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds(),
+        // },
+        // success:function(data){
           // console.log(data)
-          if(data.status=='kirim'){
+          // if(data.status=='kirim'){
             // console.log(data)  
-          }
-        },
-        error:function(data){
+          // }
+        // },
+        // error:function(data){
           // console.log(data)
-        }
-      });
-    }
-  </script>
+        // }
+      // });
+    // }
+  // </script>
   @endforeach
 </body>
 </html>

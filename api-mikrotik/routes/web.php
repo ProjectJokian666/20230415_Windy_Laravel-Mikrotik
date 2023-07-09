@@ -9,6 +9,7 @@ use App\Http\Controllers\NotifEmailController as NotifEmail;
 use App\Http\Controllers\DashboardController as Dashboard;
 use App\Http\Controllers\RealtimeController as Realtime;
 use App\Http\Controllers\NotifController as Notif;
+use App\Http\Controllers\JaringanDownController as CekJaringan;
 
 
 Route::middleware('guest')->group(function(){
@@ -92,6 +93,8 @@ Route::middleware('auth')->group(function(){
     Route::get('log',[Dashboard::class,'log'])->name('log');
     Route::get('get_log',[Dashboard::class,'get_log'])->name('get_log');
     Route::get('resources',[Dashboard::class,'resources'])->name('resources');
+
+    Route::get('cek_jaringan',[CekJaringan::class,'cek_jaringan'])->name('cek_jaringan');
 
     Route::prefix('realtime')->name('realtime')->group(function(){
         // Resource

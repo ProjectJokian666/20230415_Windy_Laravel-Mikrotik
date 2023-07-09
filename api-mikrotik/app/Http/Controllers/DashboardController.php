@@ -42,7 +42,7 @@ class DashboardController extends Controller
                     ]);
                 }
             }
-            // dd($data);
+            // dd($interface);
         //     return response()->json($uptime['0']['uptime'],200);
         }
         $data = [
@@ -71,16 +71,25 @@ class DashboardController extends Controller
             // dd($interface);
             foreach($interface as $i){
                 if ($i['type']=="ether") {
+                    $data_ether = $API->comm('/interface/monitor-traffic',array(
+                        'interface'=>$i['default-name'],
+                        'once'=>'',
+                    ));
+
+                    // dd($data_ether[0]['tx-bits-per-second']);
+
                     array_push($data_interface,[
                         "name"=>$i['name'],
                         "type"=>$i['type'],
                         "mac_address"=>$i['mac-address'],
+                        "tx" =>formatBytes($data_ether[0]['tx-bits-per-second'],2),
+                        "rx" =>formatBytes($data_ether[0]['rx-bits-per-second'],2),
                         "running"=>$i['running'],
                         "disabled"=>$i['disabled'],
                     ]);
                 }
             }
-            // dd($interface);
+            // dd($data_interface);
         }
         $data = [
             'interface' => $data_interface,

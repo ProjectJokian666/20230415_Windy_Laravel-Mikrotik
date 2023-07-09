@@ -166,18 +166,20 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="form-group row">
-						<div class="col-6">
-							<select name="interface" id="interface" style="width:100%;">
-								@foreach($data['interface'] as $key => $value)
-								<option value="{{$value['name']}}">{{$value['name']}}</option>
-								@endforeach
-							</select>
+					<h5>
+						<div class="form-group row">
+							<div class="col-6">
+								<select name="interface" class="form-select select2" id="interface" style="width:100%;">
+									@foreach($data['interface'] as $key => $value)
+									<option value="{{$value['name']}}">{{$value['name']}}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-6 d-flex no-block align-items-center">
+								Traffic Tx : <span id="traffic_tx">0</span> , Traffic Rx : <span id="traffic_rx">0</span>
+							</div>
 						</div>
-						<div class="col-6">
-							Traffic Tx : <span id="traffic_tx">0</span> , Traffic Rx : <span id="traffic_rx">0</span>
-						</div>
-					</div>
+					</h5>
 				</div>
 			</div>
 		</div>

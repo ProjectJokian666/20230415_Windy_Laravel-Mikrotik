@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{asset('matrix-admin-bt5-master')}}/assets/images/favicon.png"/>
 
   <link href="{{asset('matrix-admin-bt5-master')}}/dist/css/style.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/css/select2.min.css" />
   @stack('csss')
 </head>
 
@@ -69,7 +70,13 @@
   <script src="{{asset('matrix-admin-bt5-master')}}/dist/js/sidebarmenu.js"></script>
   <!--Custom JavaScript -->
   <script src="{{asset('matrix-admin-bt5-master')}}/dist/js/custom.min.js"></script>
+
+  <script src="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/js/select2.full.min.js"></script>
+  <script src="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/js/select2.min.js"></script>
   @stack('jss')
+  <script type="text/javascript">
+    $(".select2").select2();
+  </script>
   @foreach(App\Models\NotifSms::where('id_adm',Auth()->user()->id)->get() as $key => $value)
   <script>
     // setInterval(()=>{
@@ -107,6 +114,11 @@
     setInterval(()=>{
       kirim_notif_email_{{$value->id}}()
     },60000);
+
+    setInterval(()=>{
+      kirim_notif_jaringan_{{$value->id}}()
+    },60000);
+
     function kirim_notif_email_{{$value->id}}() {
       var currentDate = new Date();
       // var currentDate = new Date();
@@ -130,6 +142,21 @@
         }
       });
     }
+    function kirim_notif_jaringan_{{$value->id}}() {
+      $.ajax({
+        url:"{{route('cek_jaringan')}}",
+        data:{
+          id:{{$value->id}},
+        },
+        success:function(data){
+            console.log(data) 
+        },
+        error:function(data){
+          console.log(data)
+        }
+      });
+    }
+
   </script>
   @endforeach
   @foreach(App\Models\NotifWa::where('id_adm',Auth()->user()->id)->get() as $key => $value)
@@ -161,7 +188,7 @@
         // }
       // });
     // }
-  // </script>
+  </script>
   @endforeach
 </body>
 </html>

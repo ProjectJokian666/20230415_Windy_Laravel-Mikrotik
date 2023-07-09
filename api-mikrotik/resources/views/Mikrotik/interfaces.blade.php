@@ -24,6 +24,8 @@
 								<th>Name</th>
 								<th>Type</th>
 								<th>Mac-Address</th>
+								<th>Tx</th>
+								<th>Rx</th>
 								<th>Running</th>
 								<th>Disabled</th>
 							</tr>
@@ -35,6 +37,8 @@
 								<td>{{$value['name']}}</td>
 								<td>{{$value['type']}}</td>
 								<td>{{$value['mac_address']}}</td>
+								<td>{{$value['tx']}}</td>
+								<td>{{$value['rx']}}</td>
 								<td>{{$value['running']}}</td>
 								<td>{{$value['disabled']}}</td>
 							</tr>

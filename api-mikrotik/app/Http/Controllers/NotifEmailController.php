@@ -141,7 +141,7 @@ class NotifEmailController extends Controller
             ];
 
             Mail::to($data_akun->akun_email)->send(new SendMailNotif($data_periodik));
-            return response()->json($data);
+            return response()->json($data_periodik);
         }
         else{
             $data=[
@@ -168,6 +168,7 @@ class NotifEmailController extends Controller
         $version = 0;
         $build_time = 0;
         $factory_software = 0;
+        $array_interface=[];
 
         if (session()->has('ip')!=null&&session()->has('user')!=null&&session()->has('password')!=null) {
             $ip = session()->get('ip');
@@ -196,6 +197,27 @@ class NotifEmailController extends Controller
                 $version = $data[0]['version'];
                 $build_time = $data[0]['build-time'];
                 $factory_software = $data[0]['factory-software'];
+
+                $interface = $API->comm('/interface/print');
+                foreach ($interface as $key => $value) {
+                    if ($value['type']=="ether") {
+                        $data_ether = $API->comm('/interface/monitor-traffic',array(
+                            'interface'=>$value['default-name'],
+                            'once'=>'',
+                        ));
+
+                        array_push($array_interface,[
+                            "name"=>$value['name'],
+                            "type"=>$value['type'],
+                            "key"=>$value['default-name'],
+                            "mac_address"=>$value['mac-address'],
+                            "tx" =>formatBytes($data_ether[0]['tx-bits-per-second'],2),
+                            "rx" =>formatBytes($data_ether[0]['rx-bits-per-second'],2),
+                            "running"=>$value['running'],
+                            "disabled"=>$value['disabled'],
+                        ]);
+                    }
+                }
             }
         }
         $data = [
@@ -215,7 +237,8 @@ class NotifEmailController extends Controller
             'version'=>$version,
             'build_time'=>$build_time,
             'factory_software'=>$factory_software,
-            'status'=>'sukses'
+            'array_interface'=>$array_interface,
+            'status'=>'sukses kirim notif',
         ];
         return $data;
         // dd($data);

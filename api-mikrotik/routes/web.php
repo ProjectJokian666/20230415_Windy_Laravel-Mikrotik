@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/',[Dashboard::class,'index'])->name('/');
     Route::get('interfaces',[Dashboard::class,'interfaces'])->name('interfaces');
+    Route::get('update_tx_rx',[Dashboard::class,'update_tx_rx'])->name('update_tx_rx');
     Route::get('log',[Dashboard::class,'log'])->name('log');
     Route::get('get_log',[Dashboard::class,'get_log'])->name('get_log');
     Route::get('resources',[Dashboard::class,'resources'])->name('resources');

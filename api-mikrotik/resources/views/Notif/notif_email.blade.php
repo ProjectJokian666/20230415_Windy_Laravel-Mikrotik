@@ -54,6 +54,14 @@ Akun {{Auth()->User()->email}} Masuk Kedalam Mikrotik
 	<tr>
 		<td>FACTORY SOFTWARE</td><td>:</td><td>{{ $data['data']['factory_software'] }}</td>
 	</tr>
+	@foreach($data['data']['array_interface'] as $key => $value)
+	<tr>
+		<td rowspan="2">{{$value['name']}}</td><td>:</td><td>Tx &nbsp; {{$value['tx']}}</td>
+	</tr>
+	<tr>
+		<td>:</td><td>Rx &nbsp; {{$value['rx']}}</td>
+	</tr>
+	@endforeach
 </table>
 
 

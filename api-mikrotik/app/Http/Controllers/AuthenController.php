@@ -187,10 +187,39 @@ class AuthenController extends Controller
         $API->debug = false;
         // dd($request,$API->connect($request->ip,$request->user,$request->password),$API->connect("id-31.hostddns.us:5915","windy","admin"),$API->connect("id-17.hostddns.us:10269","windy","admin1"));
         if ($API->connect($data_login->ip, $data_login->username, $data_login->password)) {
+
+            // get session interface
+            $interface = $API->comm('/interface/print');
+            foreach($interface as $i){
+                if ($i['type']=='ether') {
+                    $data_ether = $API->comm('/interface/monitor-traffic',array(
+                        'interface'=>$i['default-name'],
+                        'once'=>'',
+                    ));
+
+                    // dd($data_ether,$i);
+                    $data[$i['default-name']]=$data_ether[0]['name'];
+                    if ($data_ether[0]['tx-bits-per-second']>0) {
+                        $data['status_tx_'.$i['default-name']]="up";
+                    }
+                    else{
+                        $data['status_tx_'.$i['default-name']]="down";
+                    }
+                    if ($data_ether[0]['rx-bits-per-second']>0) {
+                        $data['status_rx_'.$i['default-name']]="up";
+                    }
+                    else{
+                        $data['status_rx_'.$i['default-name']]="down";
+                    }
+                    // array_push($data,array(
+                    //     $i['default-name']=>$data_ether[0]['name'],
+                    // ));
+                }
+            }
+            // dd($data);
+
             request()->session()->put($data);
             $this->kirim_notif_login();
-            $this->kirim_notif_login_wa();
-            $this->kirim_notif_login_sms();
             return redirect('/');
         }
         else{
@@ -329,6 +358,29 @@ class AuthenController extends Controller
         // dd($data);
         if ($API->connect($request->ip, $request->user, $request->password)) {
             // dd('a');
+            $interface = $API->comm('/interface/print');
+            foreach($interface as $i){
+                if ($i['type']=='ether') {
+                    $data_ether = $API->comm('/interface/monitor-traffic',array(
+                        'interface'=>$i['default-name'],
+                        'once'=>'',
+                    ));
+
+                    $data[$i['default-name']]=$data_ether[0]['name'];
+                    if ($data_ether[0]['tx-bits-per-second']==0) {
+                        'status_tx_'.$i['default-name']="up";
+                    }
+                    else{
+                        'status_tx_'.$i['default-name']="down";
+                    }
+                    if ($data_ether[0]['rx-bits-per-second']==0) {
+                        'status_rx_'.$i['default-name']="up";
+                    }
+                    else{
+                        'status_rx_'.$i['default-name']="down";
+                    }
+                }
+            }
             $request->session()->put($data);
             $this->insert_data_login_dan_check_data();
             return redirect('/');

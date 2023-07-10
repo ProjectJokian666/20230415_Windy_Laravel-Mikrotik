@@ -81,6 +81,7 @@ class DashboardController extends Controller
                     array_push($data_interface,[
                         "name"=>$i['name'],
                         "type"=>$i['type'],
+                        "key"=>$i['default-name'],
                         "mac_address"=>$i['mac-address'],
                         "tx" =>formatBytes($data_ether[0]['tx-bits-per-second'],2),
                         "rx" =>formatBytes($data_ether[0]['rx-bits-per-second'],2),
@@ -97,6 +98,50 @@ class DashboardController extends Controller
         // dd($data);
         return view('Mikrotik.interfaces',compact('data'));
     }
+
+    public function update_tx_rx()
+    {
+        $ip = session()->get('ip');
+        $user = session()->get('user');
+        $password = session()->get('password');
+
+        $API = new RouterOsApi();
+        $API->debug = false;
+
+        $data_interface = array();
+        if ($API->connect($ip, $user, $password)) {
+            $interface = $API->comm('/interface/print');
+            // dd($interface);
+            foreach($interface as $i){
+                if ($i['type']=="ether") {
+                    $data_ether = $API->comm('/interface/monitor-traffic',array(
+                        'interface'=>$i['default-name'],
+                        'once'=>'',
+                    ));
+
+                    // dd($data_ether[0]['tx-bits-per-second']);
+
+                    array_push($data_interface,[
+                        "name"=>$i['name'],
+                        "type"=>$i['type'],
+                        "key"=>$i['default-name'],
+                        "mac_address"=>$i['mac-address'],
+                        "tx" =>formatBytes($data_ether[0]['tx-bits-per-second'],2),
+                        "rx" =>formatBytes($data_ether[0]['rx-bits-per-second'],2),
+                        "running"=>$i['running'],
+                        "disabled"=>$i['disabled'],
+                    ]);
+                }
+            }
+            // dd($data_interface);
+        }
+
+        $data = [
+            'interface' => $data_interface,
+        ];
+        return response()->json($data);
+    }
+
     public function log()
     {
         $ip = session()->get('ip');

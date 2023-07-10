@@ -176,7 +176,7 @@
 								</select>
 							</div>
 							<div class="col-6 d-flex no-block align-items-center">
-								Traffic Tx : <span id="traffic_tx">0</span> , Traffic Rx : <span id="traffic_rx">0</span>
+								Traffic Tx : <span id="traffic_tx">0</span> , Traffic Rx : <span id="traffic_rx">0</span> &emsp; ( Update data setiap 3 detik )
 							</div>
 						</div>
 					</h5>

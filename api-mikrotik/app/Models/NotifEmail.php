@@ -13,8 +13,8 @@ class NotifEmail extends Model
         'id',
         'id_adm',
         'akun_email',
-        'jam',
-        'menit',
+        'mulai',
+        'berakhir',
         'time_lock',
     ];
 }

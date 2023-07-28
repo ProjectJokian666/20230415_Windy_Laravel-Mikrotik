@@ -53,13 +53,13 @@
 								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No sms" name="auth_token" value="{{$data['data']->auth_token}}">
 							</div>
 							<p class="text-sm mt-3 mb-0">PERIODIK DALAM PENGIRIMAN DATA MONITORING</p>
-							<label>Jam</label>
+							<label>Jam Mulai</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="JAM" aria-label="No sms" name="jam" value="{{$data['data']->jam}}">
+								<input type="time" class="form-control" placeholder="JAM" aria-label="No sms" name="jam_mulai" value="{{$data['data']->mulai}}">
 							</div>
-							<label>Menit</label>
+							<label>Jam Berakhir</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="MENIT" aria-label="No sms" name="menit" value="{{$data['data']->menit}}">
+								<input type="time" class="form-control" placeholder="MENIT" aria-label="No sms" name="jam_berakhir" value="{{$data['data']->berakhir}}">
 							</div>
 							<div class="text-center justify-content-between">
 								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>

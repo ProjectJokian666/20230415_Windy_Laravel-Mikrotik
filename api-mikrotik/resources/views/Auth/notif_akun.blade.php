@@ -45,8 +45,8 @@
 									<tr>
 										<th class="text-center">NO</th>
 										<th class="text-center">AKUN EMAIL</th>
-										<th class="text-center">JAM</th>
-										<th class="text-center">MENIT</th>
+										<th class="text-center">JAM AWAL</th>
+										<th class="text-center">JAM AKHIR</th>
 										<th class="text-center">AKSI</th>
 									</tr>
 								</thead>
@@ -55,8 +55,8 @@
 									<tr>
 										<td>{{$loop->iteration}}</td>
 										<td>{{$value['akun_email']}}</td>
-										<td>{{$value['jam']}}</td>
-										<td>{{$value['menit']}}</td>
+										<td>{{$value['mulai']}}</td>
+										<td>{{$value['berakhir']}}</td>
 										<td>
 											<form action="{{url('choice/notif_akun/notif_email/'.$value->id.'/email/hapus')}}" method="POST">
 												@csrf
@@ -65,6 +65,70 @@
 												<button type="submit" class="btn bg-gradient-info mt-4 mb-0">HAPUS</button>
 												<button type="button" class="btn bg-gradient-info mt-4 mb-0" onclick="test_notif_email(<?= $value->id ?>)">TEST</button>
 												<!-- <a href="{{url('choice/notif_akun/notif_email/'.$value->id.'/email/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a> -->
+											</form>
+										</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 d-flex flex-column mx-auto">
+				<div class="card card-plain mt-6">
+
+					<div class="card-header pb-0">
+						<h6>List Untuk Mengirimkan Notifikasi Monitoring Router Mikrotik</h6>
+						@if(session('gagal'))
+						<div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+							<span class="alert-text"><strong>Danger! </strong>{{session('gagal')}}</span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						@endif
+						@if(session('sukses'))
+						<div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+							<span class="alert-text"><strong>Success! </strong>{{session('sukses')}}</span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						@endif
+					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<a href="{{url('choice/notif_akun/notif_wa/add_wa')}}" class="btn bg-gradient-info mt-4 mb-0">TAMBAH NOTIF WA</a>
+					</div>
+					<div class="card-body px-0 pt-0 pb-2">
+						<div class="table-responsive p-0">
+
+							<table class="table text-center align-items-center justify-content-center mb-0"  id="example3">
+								<thead>
+									<tr>
+										<th class="text-center">NO</th>
+										<th class="text-center">NO WA</th>
+										<th class="text-center">JAM AWAL</th>
+										<th class="text-center">JAM AKHIR</th>
+										<th class="text-center">AKSI</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($data['notifwa'] as $key => $value)
+									<tr>
+										<td>{{$loop->iteration}}</td>
+										<td>{{$value['no_wa']}}</td>
+										<td>{{$value['mulai']}}</td>
+										<td>{{$value['berakhir']}}</td>
+										<td>
+											<form action="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/hapus')}}" method="POST">
+												@csrf
+												@method('delete')
+												<a href="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/edit')}}" class="btn bg-gradient-info mt-4 mb-0">EDIT</a>
+												<button type="submit" class="btn bg-gradient-info mt-4 mb-0">HAPUS</button>
+												<button type="button"	class="btn bg-gradient-info mt-4 mb-0" onclick="test_notif_wa(<?= $value->id ?>)">TEST</button>
+												<!-- <a href="{{url('choice/notif_akun/notif_wa/'.$value->id.'/wa/test')}}" class="btn bg-gradient-info mt-4 mb-0">TEST</a> -->
 											</form>
 										</td>
 									</tr>

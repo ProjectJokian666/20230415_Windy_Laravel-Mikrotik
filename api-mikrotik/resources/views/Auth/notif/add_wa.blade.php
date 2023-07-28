@@ -52,13 +52,13 @@
 								<input type="text" class="form-control" placeholder="TOKEN" aria-label="No Wa" name="auth_token">
 							</div>
 							<p class="text-sm mt-3 mb-0">PERIODIK DALAM PENGIRIMAN DATA MONITORING</p>
-							<label>Jam</label>
+							<label>Jam Mulai</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="JAM" aria-label="No Wa" name="jam" value="1">
+								<input type="time" class="form-control" placeholder="JAM" aria-label="No Wa" name="jam_mulai">
 							</div>
-							<label>Menit</label>
+							<label>Jam Berakhir</label>
 							<div class="mb-3">
-								<input type="number" class="form-control" placeholder="MENIT" aria-label="No Wa" name="menit" value="00">
+								<input type="time" class="form-control" placeholder="MENIT" aria-label="No Wa" name="jam_berakhir">
 							</div>
 							<div class="text-center justify-content-between">
 								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>

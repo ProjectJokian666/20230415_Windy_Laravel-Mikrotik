@@ -16,8 +16,7 @@ class NotifWa extends Model
         'no_twilio',
         'account_sid',
         'auth_token',
-        'jam',
-        'menit',
-        'time_lock',
+        'mulai',
+        'berakhir',
     ];
 }

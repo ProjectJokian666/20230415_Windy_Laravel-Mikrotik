@@ -19,14 +19,11 @@ class NotifEmailController extends Controller
     public function notif_email(Request $request)
     {
         // dd($request);
-        if ($request->jam<=0&&$request->menit<=0) {
-            return redirect('choice/notif_akun')->with('gagal','Data notif Email gagal ditambahkan, Jam atau Manit harus lebih dari 0');
-        }
         $insert_data = NotifEmail::create([
             'id_adm'=>Auth()->user()->id,
             'akun_email'=>$request->akun_email,
-            'jam'=>$request->jam,
-            'menit'=>$request->menit,
+            'mulai'=>$request->jam_mulai,
+            'berakhir'=>$request->jam_berakhir,
         ]);
 
         if ($insert_data) {
@@ -39,16 +36,13 @@ class NotifEmailController extends Controller
     public function patch_email($id,Request $request)
     {
         // dd($id,$request);
-        if ($request->jam<=0&&$request->menit<=0) {
-            return redirect()->back()->with('gagal','Data notif Email gagal diubah, Jam atau Manit harus lebih dari 0');
-        }
         $insert_data = NotifEmail::
         where('id',$id)->
         update([
             'id_adm'=>Auth()->user()->id,
             'akun_email'=>$request->akun_email,
-            'jam'=>$request->jam,
-            'menit'=>$request->menit,
+            'mulai'=>$request->jam_mulai,
+            'berakhir'=>$request->jam_berakhir,
         ]);
 
         if ($insert_data) {

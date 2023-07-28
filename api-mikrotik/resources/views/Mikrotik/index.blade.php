@@ -187,6 +187,36 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
+				<table class="table table-bordered table-sm text-center">
+					<thead>
+						<tr>
+							<th>DATA</th>
+							<th>BANDWITDH</th>
+							<th>AVERAGE<br>( dibagi menjadi 10 data yang masuk )</th>
+							<th>STATUS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>TX</td>
+							<td id="bandwitdh_tx"></td>
+							<td id="status_tx"></td>
+							<td id="warna_tx"></td>
+						</tr>
+						<tr>
+							<td>RX</td>
+							<td id="bandwitdh_rx"></td>
+							<td id="status_rx"></td>
+							<td id="warna_rx"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
 				<div class="card-body">
 					<figure class="highcharts-figure">
 						<div id="tx"></div>
@@ -252,6 +282,19 @@
 		})
 	}
 
+	function ubahformatBytes(bytes, decimal = 0)
+	{
+		satuan = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb'];
+		var i = 0;
+		while (bytes > 1024) {
+			bytes /= 1024;
+			i++;
+		}
+
+		const data = bytes.toFixed(2);
+
+		return data+' '+satuan[i];
+	}
 
 	function load_grafk_tx(data) {
 		
@@ -264,6 +307,24 @@
 			elevationData_rx[i][1]=elevationData_rx[i+1][1]
 		}
 		elevationData_rx[elevationData_rx.length-1][1]=parseInt(data.rx)
+
+		j_elevationData_bandwitdh_tx=0;
+		for(var i=0; i<elevationData_bandwitdh_tx.length-1;i++){
+			elevationData_bandwitdh_tx[i][1]=elevationData_bandwitdh_tx[i+1][1];
+			status_elevationData_bandwitdh_tx[i]=status_elevationData_bandwitdh_tx[i+1];
+			j_elevationData_bandwitdh_tx+=parseInt(data.tx);
+		}
+		elevationData_bandwitdh_tx[elevationData_bandwitdh_tx.length-1][1]=parseInt(data.tx)
+		status_elevationData_bandwitdh_tx[elevationData_bandwitdh_tx.length-1]=1
+
+		j_elevationData_bandwitdh_rx=0;
+		for(var i=0; i<elevationData_bandwitdh_rx.length-1;i++){
+			elevationData_bandwitdh_rx[i][1]=elevationData_bandwitdh_rx[i+1][1];
+			status_elevationData_bandwitdh_rx[i]=status_elevationData_bandwitdh_rx[i+1];
+			j_elevationData_bandwitdh_rx+=parseInt(data.rx);
+		}
+		elevationData_bandwitdh_rx[elevationData_bandwitdh_rx.length-1][1]=parseInt(data.rx)
+		status_elevationData_bandwitdh_rx[elevationData_bandwitdh_rx.length-1]=1
 
 		// console.log(data,data.angka_rx,data.uptime)
 		// console.log(data.uptime)
@@ -281,6 +342,40 @@
 
 		$('#traffic_tx').html(data.angka_tx)
 		$('#traffic_rx').html(data.angka_rx)
+		$('#bandwitdh_tx').html(data.angka_tx)
+		$('#bandwitdh_rx').html(data.angka_rx)
+		$('#status_tx').html(ubahformatBytes(j_elevationData_bandwitdh_tx/10,2));
+		$('#status_rx').html(ubahformatBytes(j_elevationData_bandwitdh_rx/10,2));
+
+		n_elevationData_bandwitdh_tx=0
+		for (var i = 0; i < status_elevationData_bandwitdh_tx.length; i++) {
+			n_elevationData_bandwitdh_tx+=status_elevationData_bandwitdh_tx.length[i];
+		}
+
+		if (n_elevationData_bandwitdh_tx==0) {
+			$('#warna_tx').html('<button class="btn btn-sm btn-danger"></button>');
+		}
+		else if (n_elevationData_bandwitdh_tx/10>0) {
+			$('#warna_tx').html('<button class="btn btn-sm btn-warning"></button>');
+		}
+		else if (n_elevationData_bandwitdh_tx/10==1) {
+			$('#warna_tx').html('<button class="btn btn-sm btn-success"></button>');
+		}
+
+		n_elevationData_bandwitdh_rx=0
+		for (var i = 0; i < status_elevationData_bandwitdh_rx.length; i++) {
+			n_elevationData_bandwitdh_rx+=status_elevationData_bandwitdh_rx.length[i];
+		}
+
+		if (n_elevationData_bandwitdh_rx==0) {
+			$('#warna_rx').html('<button class="btn btn-sm btn-danger"></button>');
+		}
+		else if (n_elevationData_bandwitdh_rx/10>0) {
+			$('#warna_rx').html('<button class="btn btn-sm btn-warning"></button>');
+		}
+		else if (n_elevationData_bandwitdh_rx/10==1) {
+			$('#warna_rx').html('<button class="btn btn-sm btn-success"></button>');
+		}
 		
 		// replace data grafik
 		Highcharts.chart('tx', {
@@ -1352,5 +1447,10 @@
 		[9.9, 0],
 		[10.0, 0],
 		];
-	</script>
-	@endpush
+
+	var elevationData_bandwitdh_tx=[0,0,0,0,0,0,0,0,0,0];
+	var elevationData_bandwitdh_rx=[0,0,0,0,0,0,0,0,0,0];
+	var status_elevationData_bandwitdh_tx=[0,0,0,0,0,0,0,0,0,0];
+	var status_elevationData_bandwitdh_rx=[0,0,0,0,0,0,0,0,0,0];
+</script>
+@endpush

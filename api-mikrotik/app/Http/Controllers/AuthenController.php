@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\Login;
 use App\Models\NotifWa;
-use App\Models\NotifSms;
 use App\Models\NotifEmail;
 
 use App\Models\RouterOsApi;
@@ -219,7 +218,6 @@ class AuthenController extends Controller
             // dd($data);
 
             request()->session()->put($data);
-            $this->kirim_notif_login();
             return redirect('/');
         }
         else{
@@ -439,7 +437,6 @@ class AuthenController extends Controller
         // }
         $data = [
             'notifwa' => NotifWa::where('id_adm','=',Auth()->user()->id)->get(),
-            'notifsms' => NotifSms::where('id_adm','=',Auth()->user()->id)->get(),
             'notifemail' => NotifEmail::where('id_adm','=',Auth()->user()->id)->get(),
         ];
         // dd($data);

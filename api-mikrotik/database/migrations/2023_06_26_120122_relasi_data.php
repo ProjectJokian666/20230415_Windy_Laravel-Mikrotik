@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_adm')->after('id');
             $table->foreign('id_adm')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
-        Schema::table('notif_sms', function (Blueprint $table) {
+        Schema::table('notif_email', function (Blueprint $table) {
             $table->unsignedBigInteger('id_adm')->after('id');
             $table->foreign('id_adm')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
@@ -42,7 +42,7 @@ return new class extends Migration
             $table->dropForeign(['id_adm']);
             $table->dropColumn('id_adm');
         });
-        Schema::table('notif_sms', function (Blueprint $table) {
+        Schema::table('notif_email', function (Blueprint $table) {
             $table->dropForeign(['id_adm']);
             $table->dropColumn('id_adm');
         });

@@ -19,7 +19,7 @@
 				</div>
 				@endif
 				
-				<a href="{{url('choice/login_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+				<a href="{{url('choice/login_akun')}}" class="col-xl-3 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
 					<div class="card">
 						<div class="card-body p-3">
 							<div class="row">
@@ -43,7 +43,7 @@
 					</div>
 				</a>
 
-				<a href="{{url('choice/list_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+				<a href="{{url('choice/list_akun')}}" class="col-xl-3 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
 					<div class="card">
 						<div class="card-body p-3">
 							<div class="row">
@@ -66,7 +66,7 @@
 					</div>
 				</a>
 
-				<a href="{{url('choice/notif_akun')}}" class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+				<a href="{{url('choice/notif_akun')}}" class="col-xl-3 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
 					<div class="card">
 						<div class="card-body p-3">
 							<div class="row">
@@ -88,6 +88,29 @@
 						</div>
 					</div>
 				</a>
+
+				<!-- <a href="{{url('choice/notif_akun')}}" class="col-xl-3 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-5">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<div class="numbers">
+										<p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
+										<h5 class="font-weight-bolder mb-0">
+											KECEPATAN INTERNET
+											<span class="text-danger text-sm font-weight-bolder" id="kec_internet"></span>
+										</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+										<i class="fa fa-signal text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> -->
 				
 			</div>
 		</div>
@@ -98,5 +121,14 @@
 @push('jss')
 <script type="text/javascript">
 	$(".alert-dismissible").fadeIn().delay(3000).fadeOut();
+
+	function shoWspeed(connection) {
+		const {effectiveType}=connection;
+		document.getElementById('kec_internet').textContent = `${effectiveType}`;
+	}
+
+	function handleSupport() {
+		document.getElementById('kec_internet').textContent = "Api tidak support";
+	}
 </script>
 @endpush

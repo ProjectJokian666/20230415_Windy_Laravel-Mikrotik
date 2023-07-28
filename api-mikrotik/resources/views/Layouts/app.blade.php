@@ -77,56 +77,6 @@
   <script type="text/javascript">
     $(".select2").select2();
   </script>
-  @foreach(App\Models\NotifEmail::where('id_adm',Auth()->user()->id)->get() as $key => $value)
-  <script>
-    // console.log('{{$value->time_lock}}');
-    setInterval(()=>{
-      kirim_notif_email_{{$value->id}}()
-    },60000);
-
-    setInterval(()=>{
-      kirim_notif_jaringan_{{$value->id}}()
-    },60000);
-
-    function kirim_notif_email_{{$value->id}}() {
-      var currentDate = new Date();
-      // var currentDate = new Date();
-      $.ajax({
-        url:"{{route('choice.notif_akun.notif_email.kirim_notif')}}",
-        data:{
-          id:{{$value->id}},
-          jam:{{$value->jam}},
-          menit:{{$value->menit}},
-          time_lock:'{{$value->time_lock}}',
-          time_server:currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds(),
-        },
-        success:function(data){
-          // console.log(data)
-          if(data.status=='kirim'){
-            console.log(data) 
-          }
-        },
-        error:function(data){
-          console.log(data)
-        }
-      });
-    }
-    function kirim_notif_jaringan_{{$value->id}}() {
-      $.ajax({
-        url:"{{route('cek_jaringan')}}",
-        data:{
-          id:{{$value->id}},
-        },
-        success:function(data){
-            console.log(data) 
-        },
-        error:function(data){
-          console.log(data)
-        }
-      });
-    }
-
-  </script>
-  @endforeach
+  
 </body>
 </html>

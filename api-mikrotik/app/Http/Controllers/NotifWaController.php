@@ -16,17 +16,17 @@ class NotifWaController extends Controller
     }
     public function notif_wa(Request $request)
     {
-        if ($request->jam<=0&&$request->menit<=0) {
-            return redirect('choice/notif_akun')->with('gagal','Data notif Wa gagal ditambahkan, Jam atau Manit harus lebih dari 0');
-        }
+        // if ($request->jam<=0&&$request->menit<=0) {
+        //     return redirect('choice/notif_akun')->with('gagal','Data notif Wa gagal ditambahkan, Jam atau Manit harus lebih dari 0');
+        // }
         $insert_data = NotifWa::create([
             'id_adm'=>Auth()->user()->id,
             'no_wa'=>$request->no_wa,
             'no_twilio'=>$request->no_twilio,
             'account_sid'=>$request->account_sid,
             'auth_token'=>$request->auth_token,
-            'jam'=>$request->jam,
-            'menit'=>$request->menit,
+            'mulai'=>$request->jam_mulai,
+            'berakhir'=>$request->jam_berakhir,
         ]);
 
         if ($insert_data) {
@@ -58,9 +58,6 @@ class NotifWaController extends Controller
     }
     public function patch_wa($id,Request $request)
     {
-        if ($request->jam<=0&&$request->menit<=0) {
-            return redirect('choice/notif_akun')->with('gagal','Data notif Wa gagal diubah, Jam atau Manit harus lebih dari 0');
-        }
         $update_data = NotifWa::
         where('id',$id)->
         update([
@@ -69,8 +66,8 @@ class NotifWaController extends Controller
             'no_twilio'=>$request->no_twilio,
             'account_sid'=>$request->account_sid,
             'auth_token'=>$request->auth_token,
-            'jam'=>$request->jam,
-            'menit'=>$request->menit,
+            'mulai'=>$request->jam_mulai,
+            'berakhir'=>$request->jam_berakhir,
         ]);
 
         if ($update_data) {

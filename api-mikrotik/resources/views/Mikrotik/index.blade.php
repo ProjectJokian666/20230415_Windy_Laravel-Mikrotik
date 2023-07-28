@@ -347,35 +347,38 @@
 		$('#status_tx').html(ubahformatBytes(j_elevationData_bandwitdh_tx/10,2));
 		$('#status_rx').html(ubahformatBytes(j_elevationData_bandwitdh_rx/10,2));
 
-		n_elevationData_bandwitdh_tx=0
-		for (var i = 0; i < status_elevationData_bandwitdh_tx.length; i++) {
-			n_elevationData_bandwitdh_tx+=status_elevationData_bandwitdh_tx.length[i];
-		}
+		$('#warna_tx').html('<button class="btn btn-warning"></button>');
+		$('#warna_rx').html('<button class="btn btn-warning"></button>');
 
-		if (n_elevationData_bandwitdh_tx==0) {
-			$('#warna_tx').html('<button class="btn btn-sm btn-danger"></button>');
-		}
-		else if (n_elevationData_bandwitdh_tx/10>0) {
-			$('#warna_tx').html('<button class="btn btn-sm btn-warning"></button>');
-		}
-		else if (n_elevationData_bandwitdh_tx/10==1) {
-			$('#warna_tx').html('<button class="btn btn-sm btn-success"></button>');
-		}
+		// n_elevationData_bandwitdh_tx=0
+		// for (var i = 0; i < status_elevationData_bandwitdh_tx.length; i++) {
+		// 	n_elevationData_bandwitdh_tx+=status_elevationData_bandwitdh_tx.length[i];
+		// }
 
-		n_elevationData_bandwitdh_rx=0
-		for (var i = 0; i < status_elevationData_bandwitdh_rx.length; i++) {
-			n_elevationData_bandwitdh_rx+=status_elevationData_bandwitdh_rx.length[i];
-		}
+		// if (n_elevationData_bandwitdh_tx==0) {
+		// 	$('#warna_tx').html('<button class="btn btn-sm btn-danger"></button>');
+		// }
+		// else if (n_elevationData_bandwitdh_tx/10>0) {
+		// 	$('#warna_tx').html('<button class="btn btn-sm btn-warning"></button>');
+		// }
+		// else if (n_elevationData_bandwitdh_tx/10==1) {
+		// 	$('#warna_tx').html('<button class="btn btn-sm btn-success"></button>');
+		// }
 
-		if (n_elevationData_bandwitdh_rx==0) {
-			$('#warna_rx').html('<button class="btn btn-sm btn-danger"></button>');
-		}
-		else if (n_elevationData_bandwitdh_rx/10>0) {
-			$('#warna_rx').html('<button class="btn btn-sm btn-warning"></button>');
-		}
-		else if (n_elevationData_bandwitdh_rx/10==1) {
-			$('#warna_rx').html('<button class="btn btn-sm btn-success"></button>');
-		}
+		// n_elevationData_bandwitdh_rx=0
+		// for (var i = 0; i < status_elevationData_bandwitdh_rx.length; i++) {
+		// 	n_elevationData_bandwitdh_rx+=status_elevationData_bandwitdh_rx.length[i];
+		// }
+
+		// if (n_elevationData_bandwitdh_rx==0) {
+		// 	$('#warna_rx').html('<button class="btn btn-sm btn-danger"></button>');
+		// }
+		// else if (n_elevationData_bandwitdh_rx/10>0) {
+		// 	$('#warna_rx').html('<button class="btn btn-sm btn-warning"></button>');
+		// }
+		// else if (n_elevationData_bandwitdh_rx/10==1) {
+		// 	$('#warna_rx').html('<button class="btn btn-sm btn-success"></button>');
+		// }
 		
 		// replace data grafik
 		Highcharts.chart('tx', {

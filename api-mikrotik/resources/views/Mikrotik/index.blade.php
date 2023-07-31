@@ -297,7 +297,10 @@
 	}
 
 	function load_grafk_tx(data) {
-		
+		// console.log(status_elevationData_bandwitdh_tx)
+		// console.log(status_elevationData_bandwitdh_rx)
+
+
 		for(var i=0; i<elevationData_tx.length-1;i++){
 			elevationData_tx[i][1]=elevationData_tx[i+1][1]
 		}
@@ -315,7 +318,12 @@
 			j_elevationData_bandwitdh_tx+=parseInt(data.tx);
 		}
 		elevationData_bandwitdh_tx[elevationData_bandwitdh_tx.length-1][1]=parseInt(data.tx)
-		status_elevationData_bandwitdh_tx[elevationData_bandwitdh_tx.length-1]=1
+		if(data.tx>0){
+			status_elevationData_bandwitdh_tx[status_elevationData_bandwitdh_tx.length-1]=1
+		}
+		else{
+			status_elevationData_bandwitdh_tx[status_elevationData_bandwitdh_tx.length-1]=0	
+		}
 
 		j_elevationData_bandwitdh_rx=0;
 		for(var i=0; i<elevationData_bandwitdh_rx.length-1;i++){
@@ -324,7 +332,12 @@
 			j_elevationData_bandwitdh_rx+=parseInt(data.rx);
 		}
 		elevationData_bandwitdh_rx[elevationData_bandwitdh_rx.length-1][1]=parseInt(data.rx)
-		status_elevationData_bandwitdh_rx[elevationData_bandwitdh_rx.length-1]=1
+		if(data.rx>0){
+			status_elevationData_bandwitdh_rx[status_elevationData_bandwitdh_rx.length-1]=1
+		}
+		else{
+			status_elevationData_bandwitdh_rx[status_elevationData_bandwitdh_rx.length-1]=0	
+		}
 
 		// console.log(data,data.angka_rx,data.uptime)
 		// console.log(data.uptime)
@@ -347,39 +360,42 @@
 		$('#status_tx').html(ubahformatBytes(j_elevationData_bandwitdh_tx/10,2));
 		$('#status_rx').html(ubahformatBytes(j_elevationData_bandwitdh_rx/10,2));
 
-		$('#warna_tx').html('<button class="btn btn-warning"></button>');
-		$('#warna_rx').html('<button class="btn btn-warning"></button>');
+		// $('#warna_tx').html('<button class="btn btn-warning"></button>');
+		// $('#warna_tx').html('<button class="btn btn-warning"></button>');
+		n_status_tx=0;
+		for(var i=0; i<status_elevationData_bandwitdh_tx.length;i++){
+			if (status_elevationData_bandwitdh_tx[i]>0) {
+				n_status_tx++;
+			}
+		}
+		// console.log(n_status_tx,status_elevationData_bandwitdh_tx)
+		if (n_status_tx==0) {
+			$('#warna_tx').html('<div style="background-color:#da542e;color:#da542e" class="m-2">A</div>');
+		}
+		else if(n_status_tx>0&&n_status_tx/10<1){
+			$('#warna_tx').html('<div style="background-color:#ffb848;color:#ffb848" class="m-2">A</div>');
+		}
+		else{
+			$('#warna_tx').html('<div style="background-color:#28b779;color:#28b779" class="m-2">A</div>');
+		}
 
-		// n_elevationData_bandwitdh_tx=0
-		// for (var i = 0; i < status_elevationData_bandwitdh_tx.length; i++) {
-		// 	n_elevationData_bandwitdh_tx+=status_elevationData_bandwitdh_tx.length[i];
-		// }
+		n_status_rx=0;
+		for(var i=0; i<status_elevationData_bandwitdh_rx.length;i++){
+			if (status_elevationData_bandwitdh_rx[i]>0) {
+				n_status_rx++;
+			}
+		}
+		// console.log(n_status_rx,status_elevationData_bandwitdh_rx)
+		if (n_status_rx==0) {
+			$('#warna_rx').html('<div style="background-color:#da542e;color:#da542e" class="m-2">A</div>');
+		}
+		else if(n_status_rx>0&&n_status_rx/10<1){
+			$('#warna_rx').html('<div style="background-color:#ffb848;color:#ffb848" class="m-2">A</div>');
+		}
+		else{
+			$('#warna_rx').html('<div style="background-color:#28b779;color:#28b779" class="m-2">A</div>');
+		}
 
-		// if (n_elevationData_bandwitdh_tx==0) {
-		// 	$('#warna_tx').html('<button class="btn btn-sm btn-danger"></button>');
-		// }
-		// else if (n_elevationData_bandwitdh_tx/10>0) {
-		// 	$('#warna_tx').html('<button class="btn btn-sm btn-warning"></button>');
-		// }
-		// else if (n_elevationData_bandwitdh_tx/10==1) {
-		// 	$('#warna_tx').html('<button class="btn btn-sm btn-success"></button>');
-		// }
-
-		// n_elevationData_bandwitdh_rx=0
-		// for (var i = 0; i < status_elevationData_bandwitdh_rx.length; i++) {
-		// 	n_elevationData_bandwitdh_rx+=status_elevationData_bandwitdh_rx.length[i];
-		// }
-
-		// if (n_elevationData_bandwitdh_rx==0) {
-		// 	$('#warna_rx').html('<button class="btn btn-sm btn-danger"></button>');
-		// }
-		// else if (n_elevationData_bandwitdh_rx/10>0) {
-		// 	$('#warna_rx').html('<button class="btn btn-sm btn-warning"></button>');
-		// }
-		// else if (n_elevationData_bandwitdh_rx/10==1) {
-		// 	$('#warna_rx').html('<button class="btn btn-sm btn-success"></button>');
-		// }
-		
 		// replace data grafik
 		Highcharts.chart('tx', {
 			chart: {

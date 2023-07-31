@@ -90,10 +90,11 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/',[Dashboard::class,'index'])->name('/');
     Route::get('interfaces',[Dashboard::class,'interfaces'])->name('interfaces');
-    Route::get('update_tx_rx',[Dashboard::class,'update_tx_rx'])->name('update_tx_rx');
     Route::get('log',[Dashboard::class,'log'])->name('log');
     Route::get('get_log',[Dashboard::class,'get_log'])->name('get_log');
     Route::get('resources',[Dashboard::class,'resources'])->name('resources');
+    Route::get('update_tx_rx',[Dashboard::class,'update_tx_rx'])->name('update_tx_rx');
+    Route::get('update_notif_web',[Dashboard::class,'update_notif_web'])->name('update_notif_web');
 
     Route::get('cek_jaringan',[CekJaringan::class,'cek_jaringan'])->name('cek_jaringan');
 

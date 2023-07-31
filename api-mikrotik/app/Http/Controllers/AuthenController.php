@@ -204,6 +204,7 @@ class AuthenController extends Controller
                     else{
                         $data['status_tx_'.$i['default-name']]="down";
                     }
+
                     if ($data_ether[0]['rx-bits-per-second']>0) {
                         $data['status_rx_'.$i['default-name']]="up";
                     }
@@ -215,8 +216,8 @@ class AuthenController extends Controller
                     // ));
                 }
             }
+            $data['status']='connect';
             // dd($data);
-
             request()->session()->put($data);
             return redirect('/');
         }
@@ -371,6 +372,7 @@ class AuthenController extends Controller
                     else{
                         'status_tx_'.$i['default-name']="down";
                     }
+
                     if ($data_ether[0]['rx-bits-per-second']==0) {
                         'status_rx_'.$i['default-name']="up";
                     }

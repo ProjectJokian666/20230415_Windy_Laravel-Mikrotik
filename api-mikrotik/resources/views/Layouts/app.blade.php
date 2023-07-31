@@ -12,6 +12,8 @@
 
   <link href="{{asset('matrix-admin-bt5-master')}}/dist/css/style.min.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/css/select2.min.css" />
+
+  <link href="{{asset('matrix-admin-bt5-master')}}/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
   @stack('csss')
 </head>
 
@@ -73,9 +75,57 @@
 
   <script src="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/js/select2.full.min.js"></script>
   <script src="{{asset('matrix-admin-bt5-master')}}/assets/libs/select2/dist/js/select2.min.js"></script>
+
+  <script src="{{asset('matrix-admin-bt5-master')}}/assets/libs/toastr/build/toastr.min.js"></script>
   @stack('jss')
   <script type="text/javascript">
     $(".select2").select2();
+
+    setInterval(()=>{
+      cek_notif_web()
+    },3000);
+    function cek_notif_web(){
+      $.ajax({
+        url:"{{route('update_notif_web')}}",
+        success:function(data){
+          // console.log(data)
+          if (data.status_jaringan=='ubah') {
+            if (data.status=='putus') {
+              toastr.warning("KONEKSI ANDA TERPUTUS", "Silahkan Logout Terlebih Dahulu");
+            }
+            else if(data.status=='connect'){
+              toastr.success("KONEKSI ANDA TERSAMBUNG KEMBALI", "");
+            }
+          }
+          data.data_jaringan_tx.forEach(function(isi_data){
+            // console.log(isi_data);
+            if (isi_data.status_ubah=='ubah') {
+              if (isi_data.status_tx=='up') {
+                toastr.success(isi_data.message, "");
+              }
+              if (isi_data.status_tx=='down') {
+                toastr.warning(isi_data.message, "");
+              }
+            }
+          });
+          data.data_jaringan_rx.forEach(function(isi_data){
+            // console.log(isi_data);
+            if (isi_data.status_ubah=='ubah') {
+              if (isi_data.status_rx=='up') {
+                toastr.success(isi_data.message, "");
+              }
+              if (isi_data.status_rx=='down') {
+                toastr.warning(isi_data.message, "");
+              }
+            }
+          });
+          // console.log(data.data_jaringan_tx,data.data_jaringan_rx)
+        },
+        error:function(data){
+          console.log(data)
+        }
+      })
+    }
   </script>
   
 </body>

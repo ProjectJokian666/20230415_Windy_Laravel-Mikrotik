@@ -62,7 +62,7 @@
 								<input type="time" class="form-control" placeholder="MENIT" aria-label="No sms" name="jam_berakhir" value="{{$data['data']->berakhir}}">
 							</div>
 							<div class="text-center justify-content-between">
-								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">TAMBAH</button>
+								<button type="submit" class="btn bg-gradient-info w-25 mt-4 mb-0">UBAH</button>
 								<a href="{{url('choice/notif_akun')}}" class="btn bg-gradient-info w-25 mt-4 mb-0">BATAL</a>
 							</div>
 						</div>

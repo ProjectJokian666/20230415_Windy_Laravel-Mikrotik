@@ -101,32 +101,134 @@
             // console.log(isi_data);
             if (isi_data.status_ubah=='ubah') {
               if (isi_data.status_tx=='up') {
-                toastr.success(isi_data.message, "");
+                toastr.success("ip anda "+isi_data.ip,isi_data.message);
+                $.ajax({
+                  url:"{{route('kirim_notif_base_app')}}",
+                  data:{
+                    ip:isi_data.ip,
+                    message:isi_data.message,
+                    title:isi_data.title,
+                  },
+                  success:function(hasil){
+                    console.log(hasil);
+                  },
+                  error:function(hasil){
+                    console.log(hasil)
+                  }
+                });
               }
               if (isi_data.status_tx=='down') {
-                toastr.warning(isi_data.message, "");
+                toastr.warning("ip anda "+isi_data.ip,isi_data.message);
+                $.ajax({
+                  url:"{{route('kirim_notif_base_app')}}",
+                  data:{
+                    ip:isi_data.ip,
+                    message:isi_data.message,
+                    title:isi_data.title,
+                  },
+                  success:function(hasil){
+                    console.log(hasil);
+                  },
+                  error:function(hasil){
+                    console.log(hasil)
+                  }
+                });
               }
             }
+            // else{
+            //   if (isi_data.status_tx=='up') {
+            //     toastr.success(
+            //       "ip anda "+isi_data.ip
+            //       ,
+            //       isi_data.message
+            //       );
+            //   }
+            //   if (isi_data.status_tx=='down') {
+            //     toastr.warning(
+            //       "ip anda "+isi_data.ip
+            //       ,
+            //       isi_data.message
+            //       );
+            //   }
+            // }
           });
           data.data_jaringan_rx.forEach(function(isi_data){
             // console.log(isi_data);
             if (isi_data.status_ubah=='ubah') {
               if (isi_data.status_rx=='up') {
-                toastr.success(isi_data.message, "");
+                toastr.success("ip anda "+isi_data.ip,isi_data.message);
+                $.ajax({
+                  url:"{{route('kirim_notif_base_app')}}",
+                  data:{
+                    ip:isi_data.ip,
+                    message:isi_data.message,
+                    title:isi_data.title,
+                  },
+                  success:function(hasil){
+                    console.log(hasil);
+                  },
+                  error:function(hasil){
+                    console.log(hasil)
+                  }
+                });
               }
               if (isi_data.status_rx=='down') {
-                toastr.warning(isi_data.message, "");
+                toastr.warning("ip anda "+isi_data.ip,isi_data.message);
+                $.ajax({
+                  url:"{{route('kirim_notif_base_app')}}",
+                  data:{
+                    ip:isi_data.ip,
+                    message:isi_data.message,
+                    title:isi_data.title,
+                  },
+                  success:function(hasil){
+                    console.log(hasil);
+                  },
+                  error:function(hasil){
+                    console.log(hasil)
+                  }
+                });
               }
             }
+            // else{
+            //   if (isi_data.status_rx=='up') {
+            //     toastr.success(
+            //       "ip anda "+isi_data.ip
+            //       ,
+            //       isi_data.message
+            //       );
+            //   }
+            //   if (isi_data.status_rx=='down') {
+            //     toastr.warning(
+            //       "ip anda "+isi_data.ip
+            //       ,
+            //       isi_data.message
+            //       );
+            //   }
+            // }
           });
           // console.log(data.data_jaringan_tx,data.data_jaringan_rx)
         },
         error:function(data){
           console.log(data)
         }
-      })
+      });
+}
+setInterval(()=>{
+  kirim_periodik();
+},60000);
+function kirim_periodik() {
+  $.ajax({
+    url:"{{route('kirim_periodik')}}",
+    success:function(hasil){
+      console.log(hasil);
+    },
+    error:function(hasil){
+      console.log(hasil)
     }
-  </script>
-  
+  });
+}
+</script>
+
 </body>
 </html>

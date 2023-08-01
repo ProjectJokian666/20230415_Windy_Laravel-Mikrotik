@@ -15,6 +15,5 @@ class NotifEmail extends Model
         'akun_email',
         'mulai',
         'berakhir',
-        'time_lock',
     ];
 }

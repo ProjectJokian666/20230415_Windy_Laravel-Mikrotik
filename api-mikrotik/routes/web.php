@@ -95,6 +95,8 @@ Route::middleware('auth')->group(function(){
     Route::get('resources',[Dashboard::class,'resources'])->name('resources');
     Route::get('update_tx_rx',[Dashboard::class,'update_tx_rx'])->name('update_tx_rx');
     Route::get('update_notif_web',[Dashboard::class,'update_notif_web'])->name('update_notif_web');
+    Route::get('kirim_notif_base_app',[Dashboard::class,'kirim_notif_base_app'])->name('kirim_notif_base_app');
+    Route::get('kirim_periodik',[Dashboard::class,'kirim_periodik'])->name('kirim_periodik');
 
     Route::get('cek_jaringan',[CekJaringan::class,'cek_jaringan'])->name('cek_jaringan');
 
